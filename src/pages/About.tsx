@@ -55,35 +55,34 @@ export default function About() {
         </h1>
 
         {/* Lauritalk App */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
           transform: 'perspective(1000px) rotateX(1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
             🚀 What is Lauritalk?
           </h2>
           <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
-            Lauritalk is an AI-powered, Web3-enabled language translation platform designed to break communication barriers worldwide. 
+            Lauritalk is an AI-powered, Web3 inclusive language translation platform designed to break communication barriers worldwide. 
             Built with cutting-edge AI and inclusive communication technologies, we empower users to translate text, voice, gesture, 
             and sign language seamlessly across <strong style={{color: '#228B22', textShadow: '0 0 5px #228B22'}}>120+ global and local languages</strong>.
           </p>
         </div>
 
         {/* Who We Are */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '0.5s',
           transform: 'perspective(1000px) rotateX(-1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
@@ -96,14 +95,14 @@ export default function About() {
         </div>
 
         {/* Leadership */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '1s',
           transform: 'perspective(1000px) rotateX(1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
@@ -116,14 +115,14 @@ export default function About() {
         </div>
 
         {/* What We Do */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '1.5s',
           transform: 'perspective(1000px) rotateX(-1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
@@ -144,14 +143,14 @@ export default function About() {
         </div>
 
         {/* Who We Serve */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '2s',
           transform: 'perspective(1000px) rotateX(1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
@@ -175,14 +174,14 @@ export default function About() {
         </div>
 
         {/* Web3 Integration */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '2.5s',
           transform: 'perspective(1000px) rotateX(-1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
@@ -196,13 +195,13 @@ export default function About() {
         </div>
 
         {/* Vision & Contact */}
-        <div style={{ 
+        <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           textAlign: 'center',
-          boxShadow: '0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.3), inset 0 0 15px rgba(59, 130, 246, 0.1)',
+          animationDelay: '3s',
           transform: 'perspective(1000px) rotateX(1deg)'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
@@ -217,6 +216,27 @@ export default function About() {
           </p>
         </div>
       </div>
+
+      <style>
+        {`
+          .breathing-box {
+            animation: breathing 3s ease-in-out infinite;
+            box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+          }
+          
+          @keyframes breathing {
+            0% {
+              box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+            }
+            50% {
+              box-shadow: 0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.6), inset 0 0 15px rgba(59, 130, 246, 0.3);
+            }
+            100% {
+              box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }

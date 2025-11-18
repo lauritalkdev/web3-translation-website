@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import CryptoPayment from '../components/CryptoPayment';
 
 export default function Billing() {
   const navigate = useNavigate();
@@ -72,23 +73,11 @@ export default function Billing() {
               Monthly
             </h3>
             <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1rem' }}>
-              $6<span style={{ fontSize: '1rem', color: '#9CA3AF' }}>/month</span>
+              $7<span style={{ fontSize: '1rem', color: '#9CA3AF' }}>/month</span>
             </div>
             <p style={{ color: '#9CA3AF', marginBottom: '1.5rem' }}>
               Perfect for short-term projects
             </p>
-            <button style={{ 
-              backgroundColor: '#D4AF37', 
-              color: '#000000', 
-              padding: '0.75rem 2rem', 
-              borderRadius: '0.375rem', 
-              border: 'none', 
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              width: '100%'
-            }}>
-              Select Monthly
-            </button>
           </div>
 
           {/* Annual Plan */}
@@ -116,20 +105,8 @@ export default function Billing() {
               $60<span style={{ fontSize: '1rem', color: '#9CA3AF' }}>/year</span>
             </div>
             <p style={{ color: '#9CA3AF', marginBottom: '1.5rem' }}>
-              Save $12 - 2 months free
+              Save $24 - 2 months free
             </p>
-            <button style={{ 
-              backgroundColor: '#228B22', 
-              color: '#ffffff', 
-              padding: '0.75rem 2rem', 
-              borderRadius: '0.375rem', 
-              border: 'none', 
-              fontWeight: 'bold',
-              cursor: 'pointer',
-              width: '100%'
-            }}>
-              Select Annual
-            </button>
           </div>
         </div>
 
@@ -151,30 +128,17 @@ export default function Billing() {
           </h3>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Crypto Payment */}
+            {/* Crypto Payment - REPLACED WITH ACTUAL COMPONENT */}
             <div style={{ 
               backgroundColor: '#2d2d2d', 
               padding: '1.5rem', 
               borderRadius: '0.375rem', 
               border: '1px solid #333333'
             }}>
-              <h4 style={{ fontWeight: 'bold', color: '#D4AF37', marginBottom: '0.5rem' }}>
+              <h4 style={{ fontWeight: 'bold', color: '#D4AF37', marginBottom: '1rem' }}>
                 Pay with Crypto (NowPayments)
               </h4>
-              <p style={{ color: '#9CA3AF', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                Bitcoin, Ethereum, USDT, and other major cryptocurrencies
-              </p>
-              <button style={{ 
-                backgroundColor: '#D4AF37', 
-                color: '#000000', 
-                padding: '0.75rem 1.5rem', 
-                borderRadius: '0.375rem', 
-                border: 'none', 
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}>
-                Pay with Crypto
-              </button>
+              <CryptoPayment />
             </div>
 
             {/* Card Payment */}
