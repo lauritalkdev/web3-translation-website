@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom';
+import GlobalAIImage from '../assets/images/global-ai-network.jpg';
+import InclusiveImage from '../assets/images/inclusive-communication.jpg';
 
 export default function About() {
   const navigate = useNavigate();
@@ -54,24 +56,42 @@ export default function About() {
           About Lauritalk 🌍
         </h1>
 
-        {/* Lauritalk App */}
+        {/* Lauritalk App with Professional Image Layout */}
         <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
-          textAlign: 'center',
           transform: 'perspective(1000px) rotateX(1deg)'
         }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
-            🚀 What is Lauritalk?
-          </h2>
-          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
-            Lauritalk is an AI-powered, Web3 inclusive language translation platform designed to break communication barriers worldwide. 
-            Built with cutting-edge AI and inclusive communication technologies, we empower users to translate text, voice, gesture, 
-            and sign language seamlessly across <strong style={{color: '#228B22', textShadow: '0 0 5px #228B22'}}>120+ global and local languages</strong>.
-          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', textAlign: 'center', textShadow: '0 0 8px #D4AF37' }}>
+              🚀 What is Lauritalk?
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                <img 
+                  src={GlobalAIImage} 
+                  alt="Global AI Translation Network"
+                  style={{
+                    width: '100%',
+                    borderRadius: '0.5rem',
+                    border: '2px solid #3B82F6',
+                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)'
+                  }}
+                />
+              </div>
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
+                  Lauritalk is an AI-powered, Web3 inclusive language translation platform designed to break communication barriers worldwide. 
+                  Built with cutting-edge AI and inclusive communication technologies, we empower users to translate text, voice, gesture, 
+                  and sign language seamlessly across <strong style={{color: '#228B22', textShadow: '0 0 5px #228B22'}}>120+ global and local languages</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Who We Are */}
@@ -114,31 +134,47 @@ export default function About() {
           </p>
         </div>
 
-        {/* What We Do */}
+        {/* What We Do with Professional Image Layout */}
         <div className="breathing-box" style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
-          textAlign: 'center',
           animationDelay: '1.5s',
           transform: 'perspective(1000px) rotateX(-1deg)'
         }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
-            🌟 What Lauritalk Does
-          </h2>
-          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto 1.5rem' }}>
-            More than just translation—it's a complete communication ecosystem! 🎯
-          </p>
-          <div style={{ display: 'inline-block', textAlign: 'left', maxWidth: '600px' }}>
-            <ul style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
-              <li>🌐 Translation of 120+ international languages</li>
-              <li>🔄 Local dialect ↔ International language translation</li>
-              <li>👋 Gesture-to-Voice/Text translation</li>
-              <li>🤟 Sign-Language-to-Voice/Text translation</li>
-              <li>🎯 Enhanced accessibility for impaired communities</li>
-            </ul>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', textAlign: 'center', textShadow: '0 0 8px #228B22' }}>
+              🌟 What Lauritalk Does
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap-reverse' }}>
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+                  More than just translation—it's a complete communication ecosystem! 🎯
+                </p>
+                <ul style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', paddingLeft: '1.5rem' }}>
+                  <li>🌐 Translation of 120+ international languages</li>
+                  <li>🔄 Local dialect ↔ International language translation</li>
+                  <li>👋 Gesture-to-Voice/Text translation</li>
+                  <li>🤟 Sign-Language-to-Voice/Text translation</li>
+                  <li>🎯 Enhanced accessibility for impaired communities</li>
+                </ul>
+              </div>
+              <div style={{ flex: '1', minWidth: '300px' }}>
+                <img 
+                  src={InclusiveImage} 
+                  alt="Inclusive Communication & Accessibility Scene"
+                  style={{
+                    width: '100%',
+                    borderRadius: '0.5rem',
+                    border: '2px solid #228B22',
+                    boxShadow: '0 0 20px rgba(34, 139, 34, 0.5)'
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
