@@ -683,7 +683,7 @@ export default function Home() {
               maxWidth: '400px',
               lineHeight: '1.4'
             }}>
-              © {new Date().getFullYear()} Luminix. All rights reserved. 
+              © {new Date().getFullYear()} Powered by Luminix. All rights reserved. 
               Building the future of inclusive communication.
             </p>
           </div>
