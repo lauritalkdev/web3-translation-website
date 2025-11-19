@@ -19,12 +19,33 @@ export default function About() {
       display: 'flex',
       flexDirection: 'column'
     }}>
+      {/* Viewport Meta for Mobile */}
+      <style>
+        {`
+          @media (max-width: 768px) {
+            body {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              overflow-x: hidden;
+            }
+            html {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              overflow-x: hidden;
+            }
+          }
+        `}
+      </style>
+
       {/* Navigation */}
       <nav style={{ 
         backgroundColor: '#000000', 
         borderBottom: '1px solid #D4AF37', 
         padding: '1rem 0',
-        width: '100%'
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         <div style={{ 
           maxWidth: '1200px',
@@ -33,6 +54,8 @@ export default function About() {
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D4AF37' }}>Web3 Translate</h1>
           <div style={{ display: 'flex', gap: '1rem' }}>
@@ -51,7 +74,9 @@ export default function About() {
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '3rem 1rem',
-        flex: '1'
+        flex: '1',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         <h1 style={{ 
           fontSize: '2.5rem', 
@@ -71,7 +96,9 @@ export default function About() {
           borderRadius: '1rem',
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
-          transform: 'perspective(1000px) rotateX(1deg)'
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', textAlign: 'center', textShadow: '0 0 8px #D4AF37' }}>
@@ -79,7 +106,7 @@ export default function About() {
             </h2>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
-              <div style={{ flex: '1', minWidth: '300px' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
                 <img 
                   src={GlobalAIImage} 
                   alt="Global AI Translation Network"
@@ -87,11 +114,13 @@ export default function About() {
                     width: '100%',
                     borderRadius: '0.5rem',
                     border: '2px solid #3B82F6',
-                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)'
+                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
+                    maxWidth: '100%',
+                    height: 'auto'
                   }}
                 />
               </div>
-              <div style={{ flex: '1', minWidth: '300px' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
                 <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
                   Lauritalk is an AI-powered, Web3 inclusive language translation platform designed to break communication barriers worldwide. 
                   Built with cutting-edge AI and inclusive communication technologies, we empower users to translate text, voice, gesture, 
@@ -111,7 +140,9 @@ export default function About() {
           marginBottom: '2.5rem',
           textAlign: 'center',
           animationDelay: '0.5s',
-          transform: 'perspective(1000px) rotateX(-1deg)'
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
             🏢 Who We Are
@@ -131,7 +162,9 @@ export default function About() {
           marginBottom: '2.5rem',
           textAlign: 'center',
           animationDelay: '1s',
-          transform: 'perspective(1000px) rotateX(1deg)'
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
             👨‍💻 Our Leadership
@@ -150,7 +183,9 @@ export default function About() {
           border: '2px solid #3B82F6',
           marginBottom: '2.5rem',
           animationDelay: '1.5s',
-          transform: 'perspective(1000px) rotateX(-1deg)'
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', textAlign: 'center', textShadow: '0 0 8px #228B22' }}>
@@ -158,7 +193,7 @@ export default function About() {
             </h2>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap-reverse' }}>
-              <div style={{ flex: '1', minWidth: '300px' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
                 <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', marginBottom: '1.5rem' }}>
                   More than just translation—it's a complete communication ecosystem! 🎯
                 </p>
@@ -170,7 +205,7 @@ export default function About() {
                   <li>🎯 Enhanced accessibility for impaired communities</li>
                 </ul>
               </div>
-              <div style={{ flex: '1', minWidth: '300px' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
                 <img 
                   src={InclusiveImage} 
                   alt="Inclusive Communication & Accessibility Scene"
@@ -178,7 +213,9 @@ export default function About() {
                     width: '100%',
                     borderRadius: '0.5rem',
                     border: '2px solid #228B22',
-                    boxShadow: '0 0 20px rgba(34, 139, 34, 0.5)'
+                    boxShadow: '0 0 20px rgba(34, 139, 34, 0.5)',
+                    maxWidth: '100%',
+                    height: 'auto'
                   }}
                 />
               </div>
@@ -195,7 +232,9 @@ export default function About() {
           marginBottom: '2.5rem',
           textAlign: 'center',
           animationDelay: '2s',
-          transform: 'perspective(1000px) rotateX(1deg)'
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
             👥 Who We Serve
@@ -203,7 +242,7 @@ export default function About() {
           <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto 1.5rem' }}>
             Designed for <strong style={{color: '#228B22'}}>everyone</strong>, especially:
           </p>
-          <div style={{ display: 'inline-block', textAlign: 'left', maxWidth: '600px' }}>
+          <div style={{ display: 'inline-block', textAlign: 'left', maxWidth: '600px', width: '100%' }}>
             <ul style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
               <li>✈️ International travelers & migrants</li>
               <li>🎓 International students</li>
@@ -226,7 +265,9 @@ export default function About() {
           marginBottom: '2.5rem',
           textAlign: 'center',
           animationDelay: '2.5s',
-          transform: 'perspective(1000px) rotateX(-1deg)'
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
             ⛓️ Web3 Power
@@ -246,7 +287,9 @@ export default function About() {
           border: '2px solid #3B82F6',
           textAlign: 'center',
           animationDelay: '3s',
-          transform: 'perspective(1000px) rotateX(1deg)'
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
             🎯 Our Vision & Contact
@@ -267,7 +310,8 @@ export default function About() {
         borderTop: '2px solid #D4AF37',
         padding: '2rem 1rem',
         marginTop: 'auto',
-        width: '100%'
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         <div style={{
           maxWidth: '1200px',
@@ -275,10 +319,12 @@ export default function About() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem'
+          gap: '1.5rem',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
           {/* Company Info */}
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', width: '100%' }}>
             <h3 style={{ 
               color: '#D4AF37', 
               fontSize: '1.25rem', 
@@ -290,13 +336,14 @@ export default function About() {
             <p style={{ 
               color: '#9CA3AF', 
               fontSize: '0.9rem',
-              maxWidth: '500px'
+              maxWidth: '500px',
+              margin: '0 auto'
             }}>
               Breaking language barriers with AI-powered, Web3-secure translation technology for a more connected world.
             </p>
           </div>
 
-                   {/* Social Links - Professional LinkedIn Icon */}
+          {/* Social Links - Professional LinkedIn Icon */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <p style={{ color: '#E5E7EB', fontSize: '0.9rem', margin: 0 }}>
               Connect with us:
@@ -336,13 +383,14 @@ export default function About() {
           </div>
 
           {/* Copyright */}
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: 'center', width: '100%' }}>
             <p style={{ 
               color: '#6B7280', 
               fontSize: '0.8rem',
               borderTop: '1px solid #374151',
               paddingTop: '1rem',
-              width: '100%'
+              width: '100%',
+              margin: 0
             }}>
               © {new Date().getFullYear()} Luminix. All rights reserved. 
               Building the future of inclusive communication.
@@ -367,6 +415,27 @@ export default function About() {
             }
             100% {
               box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+            }
+          }
+
+          /* Mobile-specific fixes */
+          @media (max-width: 768px) {
+            .breathing-box {
+              padding: 1.5rem !important;
+              margin-bottom: 1.5rem !important;
+            }
+            
+            h1 {
+              font-size: 2rem !important;
+              margin-bottom: 2rem !important;
+            }
+            
+            h2 {
+              font-size: 1.5rem !important;
+            }
+            
+            p, li {
+              font-size: 1rem !important;
             }
           }
         `}
