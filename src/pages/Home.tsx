@@ -449,7 +449,7 @@ export default function Home() {
           textShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
           padding: '0 0.5rem'
         }}>
-          AI-powered, Web3-secure translation for 120+ languages, local dialects, gestures, and sign language—built for everyone.
+          AI-powered, Web3-secure translation for 150+ languages, local dialects, gestures, and sign language—built for everyone.
         </p>
 
         {/* Key Features Grid - Mobile Optimized */}
