@@ -141,6 +141,35 @@ export default function Home() {
             footer > div {
               padding: 0 0.5rem;
             }
+
+            /* Mobile header fixes for logged-in users */
+            .logged-in-mobile-header {
+              flex-direction: column;
+              gap: 0.75rem;
+            }
+            
+            .logged-in-user-info {
+              order: -1;
+              width: 100%;
+              text-align: center;
+              margin-bottom: 0.5rem;
+            }
+            
+            .logged-in-buttons {
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 0.5rem;
+              width: 100%;
+            }
+            
+            .logged-in-buttons button {
+              flex: 1;
+              min-width: 80px;
+              max-width: 120px;
+              font-size: 0.8rem;
+              padding: 0.4rem 0.6rem;
+            }
           }
 
           @media (max-width: 480px) {
@@ -169,6 +198,12 @@ export default function Home() {
             
             footer > div {
               padding: 0 0.25rem;
+            }
+
+            .logged-in-buttons button {
+              font-size: 0.75rem;
+              padding: 0.35rem 0.5rem;
+              min-width: 70px;
             }
           }
         `}
@@ -260,88 +295,116 @@ export default function Home() {
                 </button>
               </>
             ) : (
-              <>
-                <div className="mobile-user-info" style={{ color: '#D4AF37', fontSize: '0.8rem', marginRight: '0.5rem' }}>
+              <div className="logged-in-mobile-header" style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                gap: '0.75rem',
+                width: '100%'
+              }}>
+                <div className="logged-in-user-info" style={{ 
+                  color: '#D4AF37', 
+                  fontSize: '0.9rem', 
+                  textAlign: 'center',
+                  width: '100%'
+                }}>
                   Welcome, {user.email?.split('@')[0]}
                 </div>
-                <button 
-                  onClick={() => navigate('/about')}
-                  style={{ 
-                    color: '#3B82F6', 
-                    background: 'none', 
-                    border: '1px solid #3B82F6',
-                    padding: '0.4rem 1rem',
-                    borderRadius: '0.375rem',
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#3B82F6';
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.boxShadow = '0 0 15px #3B82F6';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#3B82F6';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  About
-                </button>
-                <button 
-                  onClick={() => navigate('/billing')}
-                  style={{ 
-                    backgroundColor: '#D4AF37', 
-                    color: '#000000', 
-                    padding: '0.4rem 1rem', 
-                    borderRadius: '0.375rem', 
-                    border: 'none', 
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    boxShadow: '0 0 10px #D4AF37',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.boxShadow = '0 0 20px #D4AF37, 0 0 30px #D4AF37';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.boxShadow = '0 0 10px #D4AF37';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  Upgrade
-                </button>
-                <button 
-                  onClick={handleLogout}
-                  style={{ 
-                    color: '#EF4444', 
-                    background: 'none', 
-                    border: '1px solid #EF4444',
-                    padding: '0.4rem 1rem',
-                    borderRadius: '0.375rem',
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#EF4444';
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.boxShadow = '0 0 15px #EF4444';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#EF4444';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  Logout
-                </button>
-              </>
+                <div className="logged-in-buttons" style={{ 
+                  display: 'flex', 
+                  gap: '0.5rem', 
+                  justifyContent: 'center',
+                  width: '100%',
+                  flexWrap: 'wrap'
+                }}>
+                  <button 
+                    onClick={() => navigate('/about')}
+                    style={{ 
+                      color: '#3B82F6', 
+                      background: 'none', 
+                      border: '1px solid #3B82F6',
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '0.375rem',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      transition: 'all 0.3s ease',
+                      fontSize: '0.8rem',
+                      flex: '1',
+                      minWidth: '80px',
+                      maxWidth: '100px'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#3B82F6';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.boxShadow = '0 0 15px #3B82F6';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#3B82F6';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    About
+                  </button>
+                  <button 
+                    onClick={() => navigate('/billing')}
+                    style={{ 
+                      backgroundColor: '#D4AF37', 
+                      color: '#000000', 
+                      padding: '0.4rem 0.8rem', 
+                      borderRadius: '0.375rem', 
+                      border: 'none', 
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      boxShadow: '0 0 10px #D4AF37',
+                      transition: 'all 0.3s ease',
+                      fontSize: '0.8rem',
+                      flex: '1',
+                      minWidth: '80px',
+                      maxWidth: '100px'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.boxShadow = '0 0 20px #D4AF37, 0 0 30px #D4AF37';
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.boxShadow = '0 0 10px #D4AF37';
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    Upgrade
+                  </button>
+                  <button 
+                    onClick={handleLogout}
+                    style={{ 
+                      color: '#EF4444', 
+                      background: 'none', 
+                      border: '1px solid #EF4444',
+                      padding: '0.4rem 0.8rem',
+                      borderRadius: '0.375rem',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      transition: 'all 0.3s ease',
+                      fontSize: '0.8rem',
+                      flex: '1',
+                      minWidth: '80px',
+                      maxWidth: '100px'
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.backgroundColor = '#EF4444';
+                      e.currentTarget.style.color = '#ffffff';
+                      e.currentTarget.style.boxShadow = '0 0 15px #EF4444';
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.color = '#EF4444';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>

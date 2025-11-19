@@ -304,7 +304,7 @@ export default function About() {
         </div>
       </div>
 
-      {/* Professional Footer */}
+      {/* Professional Footer - Exact same as HomeScreen */}
       <footer style={{
         backgroundColor: '#000000',
         borderTop: '2px solid #D4AF37',
@@ -320,14 +320,13 @@ export default function About() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: '1.5rem',
-          width: '100%',
-          boxSizing: 'border-box'
+          textAlign: 'center'
         }}>
           {/* Company Info */}
-          <div style={{ textAlign: 'center', width: '100%' }}>
+          <div style={{ width: '100%' }}>
             <h3 style={{ 
               color: '#D4AF37', 
-              fontSize: '1.25rem', 
+              fontSize: 'clamp(1.1rem, 4vw, 1.25rem)', 
               fontWeight: 'bold',
               marginBottom: '0.5rem'
             }}>
@@ -335,17 +334,18 @@ export default function About() {
             </h3>
             <p style={{ 
               color: '#9CA3AF', 
-              fontSize: '0.9rem',
+              fontSize: 'clamp(0.8rem, 3vw, 0.9rem)',
               maxWidth: '500px',
-              margin: '0 auto'
+              margin: '0 auto',
+              lineHeight: '1.5'
             }}>
               Breaking language barriers with AI-powered, Web3-secure translation technology for a more connected world.
             </p>
           </div>
 
           {/* Social Links - Professional LinkedIn Icon */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <p style={{ color: '#E5E7EB', fontSize: '0.9rem', margin: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'center', width: '100%' }}>
+            <p style={{ color: '#E5E7EB', fontSize: 'clamp(0.8rem, 3vw, 0.9rem)', margin: 0 }}>
               Connect with us:
             </p>
             <button 
@@ -383,14 +383,16 @@ export default function About() {
           </div>
 
           {/* Copyright */}
-          <div style={{ textAlign: 'center', width: '100%' }}>
+          <div style={{ width: '100%' }}>
             <p style={{ 
               color: '#6B7280', 
-              fontSize: '0.8rem',
+              fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)',
               borderTop: '1px solid #374151',
               paddingTop: '1rem',
               width: '100%',
-              margin: 0
+              margin: '0 auto',
+              maxWidth: '400px',
+              lineHeight: '1.4'
             }}>
               © {new Date().getFullYear()} Luminix. All rights reserved. 
               Building the future of inclusive communication.
