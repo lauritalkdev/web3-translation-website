@@ -103,6 +103,56 @@ export default function Home() {
             .mobile-user-info {
               text-align: center;
               margin-bottom: 0.5rem;
+              font-size: 0.8rem;
+            }
+            
+            .mobile-content {
+              padding: 2rem 1rem;
+            }
+            
+            .mobile-grid {
+              grid-template-columns: 1fr;
+              gap: 1rem;
+              margin: 0 auto 2rem;
+              max-width: 100%;
+            }
+            
+            .mobile-feature {
+              padding: 1rem;
+              margin: 0 0.5rem;
+            }
+            
+            .mobile-buttons {
+              gap: 0.75rem;
+              padding: 0 0.5rem;
+            }
+            
+            .mobile-button {
+              padding: 0.75rem 1.5rem;
+              font-size: 0.9rem;
+              width: 100%;
+              max-width: 280px;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .mobile-user-info {
+              font-size: 0.75rem;
+            }
+            
+            .mobile-nav-buttons button {
+              padding: 0.35rem 0.75rem;
+              font-size: 0.8rem;
+            }
+            
+            .mobile-content h1 {
+              font-size: 1.8rem;
+              margin-bottom: 1rem;
+            }
+            
+            .mobile-content p {
+              font-size: 0.9rem;
+              margin-bottom: 2rem;
             }
           }
         `}
@@ -281,19 +331,21 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div style={{ 
+      {/* Hero Section - Mobile Optimized */}
+      <div className="mobile-content" style={{ 
         maxWidth: '1200px',
         margin: '0 auto',
-        padding: '4rem 1rem',
+        padding: '3rem 1rem',
         textAlign: 'center',
         position: 'relative',
         zIndex: 5,
-        flex: '1'
+        flex: '1',
+        width: '100%',
+        boxSizing: 'border-box'
       }}>
         {/* Main Title */}
         <h1 style={{ 
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)', 
+          fontSize: 'clamp(1.8rem, 5vw, 3.5rem)', 
           fontWeight: 'bold', 
           marginBottom: '1.5rem',
           background: 'linear-gradient(135deg, #D4AF37 0%, #FFFFFF 50%, #228B22 100%)',
@@ -301,32 +353,35 @@ export default function Home() {
           WebkitBackgroundClip: 'text',
           color: 'transparent',
           textShadow: '0 0 30px rgba(212, 175, 55, 0.5)',
-          lineHeight: '1.2'
+          lineHeight: '1.2',
+          padding: '0 0.5rem'
         }}>
           Break Language Barriers.<br />Connect With Anyone.
         </h1>
 
         {/* Subtitle */}
         <p style={{ 
-          fontSize: 'clamp(1rem, 3vw, 1.25rem)', 
+          fontSize: 'clamp(0.9rem, 3vw, 1.25rem)', 
           color: '#E5E7EB', 
-          marginBottom: '3rem', 
+          marginBottom: '2rem', 
           maxWidth: '600px',
-          margin: '0 auto 3rem',
+          margin: '0 auto 2rem',
           lineHeight: '1.6',
-          textShadow: '0 0 10px rgba(0, 0, 0, 0.5)'
+          textShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
+          padding: '0 0.5rem'
         }}>
           AI-powered, Web3-secure translation for 120+ languages, local dialects, gestures, and sign language—built for everyone.
         </p>
 
-        {/* Key Features Grid */}
-        <div style={{ 
+        {/* Key Features Grid - Mobile Optimized */}
+        <div className="mobile-grid" style={{ 
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem',
-          marginBottom: '3rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '1rem',
+          marginBottom: '2rem',
           maxWidth: '1000px',
-          margin: '0 auto 3rem'
+          margin: '0 auto 2rem',
+          padding: '0 0.5rem'
         }}>
           {[
             { icon: '⚡', text: 'Fast & accurate real-time translations' },
@@ -334,7 +389,7 @@ export default function Home() {
             { icon: '👥', text: 'Accessible for travelers, students & impaired users' },
             { icon: '🔒', text: 'Private, secure, and decentralized' }
           ].map((feature, index) => (
-            <div key={index} style={{
+            <div key={index} className="mobile-feature" style={{
               backgroundColor: 'rgba(26, 26, 26, 0.7)',
               padding: '1.25rem',
               borderRadius: '1rem',
@@ -343,7 +398,11 @@ export default function Home() {
               boxShadow: `0 0 20px rgba(${index % 2 === 0 ? '212, 175, 55' : '34, 139, 34'}, 0.3)`,
               transform: 'perspective(1000px) rotateX(5deg)',
               transition: 'all 0.3s ease',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              minHeight: '140px',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center'
             }}
             onMouseOver={(e) => {
               e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) translateY(-5px)';
@@ -355,17 +414,18 @@ export default function Home() {
             }}
             >
               <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{feature.icon}</div>
-              <p style={{ color: '#E5E7EB', fontSize: '0.9rem', lineHeight: '1.4' }}>{feature.text}</p>
+              <p style={{ color: '#E5E7EB', fontSize: '0.9rem', lineHeight: '1.4', margin: 0 }}>{feature.text}</p>
             </div>
           ))}
         </div>
 
-        {/* Action Buttons */}
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '3rem' }}>
+        {/* Action Buttons - Mobile Optimized */}
+        <div className="mobile-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem', padding: '0 0.5rem' }}>
           {!user ? (
             <>
               <button 
                 onClick={() => navigate('/register')}
+                className="mobile-button"
                 style={{ 
                   backgroundColor: '#228B22', 
                   color: '#ffffff', 
@@ -392,6 +452,7 @@ export default function Home() {
               </button>
               <button 
                 onClick={() => navigate('/login')}
+                className="mobile-button"
                 style={{ 
                   backgroundColor: 'transparent', 
                   color: '#D4AF37', 
@@ -424,6 +485,7 @@ export default function Home() {
           ) : (
             <button 
               onClick={() => navigate('/billing')}
+              className="mobile-button"
               style={{ 
                 backgroundColor: '#D4AF37', 
                 color: '#000000', 
@@ -487,7 +549,7 @@ export default function Home() {
             </p>
           </div>
 
-                   {/* Social Links - Professional LinkedIn Icon */}
+          {/* Social Links - Professional LinkedIn Icon */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <p style={{ color: '#E5E7EB', fontSize: '0.9rem', margin: 0 }}>
               Connect with us:
