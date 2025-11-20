@@ -178,12 +178,104 @@ export default function Register() {
                 required
               >
                 <option value="">Select your country</option>
-                <option value="Cameroon">Cameroon</option>
-                <option value="Nigeria">Nigeria</option>
-                <option value="Ghana">Ghana</option>
-                <option value="Kenya">Kenya</option>
-                <option value="South Africa">South Africa</option>
-                <option value="Other">Other</option>
+                
+                {/* Africa */}
+                <optgroup label="🌍 Africa">
+                  <option value="Cameroon">Cameroon</option>
+                  <option value="Nigeria">Nigeria</option>
+                  <option value="Ghana">Ghana</option>
+                  <option value="Kenya">Kenya</option>
+                  <option value="South Africa">South Africa</option>
+                  <option value="Egypt">Egypt</option>
+                  <option value="Ethiopia">Ethiopia</option>
+                  <option value="Tanzania">Tanzania</option>
+                  <option value="Uganda">Uganda</option>
+                  <option value="Rwanda">Rwanda</option>
+                  <option value="Senegal">Senegal</option>
+                  <option value="Ivory Coast">Ivory Coast</option>
+                  <option value="Morocco">Morocco</option>
+                  <option value="Algeria">Algeria</option>
+                  <option value="Tunisia">Tunisia</option>
+                </optgroup>
+
+                {/* Asia */}
+                <optgroup label="🌏 Asia">
+                  <option value="China">China</option>
+                  <option value="India">India</option>
+                  <option value="Japan">Japan</option>
+                  <option value="South Korea">South Korea</option>
+                  <option value="Singapore">Singapore</option>
+                  <option value="Malaysia">Malaysia</option>
+                  <option value="Thailand">Thailand</option>
+                  <option value="Vietnam">Vietnam</option>
+                  <option value="Philippines">Philippines</option>
+                  <option value="Indonesia">Indonesia</option>
+                  <option value="Pakistan">Pakistan</option>
+                  <option value="Bangladesh">Bangladesh</option>
+                  <option value="Sri Lanka">Sri Lanka</option>
+                  <option value="United Arab Emirates">United Arab Emirates</option>
+                  <option value="Saudi Arabia">Saudi Arabia</option>
+                </optgroup>
+
+                {/* Europe */}
+                <optgroup label="🌍 Europe">
+                  <option value="United Kingdom">United Kingdom</option>
+                  <option value="Germany">Germany</option>
+                  <option value="France">France</option>
+                  <option value="Italy">Italy</option>
+                  <option value="Spain">Spain</option>
+                  <option value="Portugal">Portugal</option>
+                  <option value="Netherlands">Netherlands</option>
+                  <option value="Belgium">Belgium</option>
+                  <option value="Switzerland">Switzerland</option>
+                  <option value="Sweden">Sweden</option>
+                  <option value="Norway">Norway</option>
+                  <option value="Denmark">Denmark</option>
+                  <option value="Finland">Finland</option>
+                  <option value="Poland">Poland</option>
+                  <option value="Ukraine">Ukraine</option>
+                </optgroup>
+
+                {/* North America */}
+                <optgroup label="🌎 North America">
+                  <option value="United States">United States</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Mexico">Mexico</option>
+                  <option value="Costa Rica">Costa Rica</option>
+                  <option value="Panama">Panama</option>
+                  <option value="Jamaica">Jamaica</option>
+                  <option value="Dominican Republic">Dominican Republic</option>
+                  <option value="Guatemala">Guatemala</option>
+                  <option value="Honduras">Honduras</option>
+                  <option value="El Salvador">El Salvador</option>
+                </optgroup>
+
+                {/* South America */}
+                <optgroup label="🌎 South America">
+                  <option value="Brazil">Brazil</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="Peru">Peru</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Ecuador">Ecuador</option>
+                  <option value="Venezuela">Venezuela</option>
+                  <option value="Bolivia">Bolivia</option>
+                  <option value="Paraguay">Paraguay</option>
+                  <option value="Uruguay">Uruguay</option>
+                </optgroup>
+
+                {/* Oceania */}
+                <optgroup label="🌏 Oceania">
+                  <option value="Australia">Australia</option>
+                  <option value="New Zealand">New Zealand</option>
+                  <option value="Fiji">Fiji</option>
+                  <option value="Papua New Guinea">Papua New Guinea</option>
+                  <option value="Samoa">Samoa</option>
+                  <option value="Tonga">Tonga</option>
+                </optgroup>
+
+                {/* Other */}
+                <option value="Other">Other (Not Listed)</option>
               </select>
             </div>
 
