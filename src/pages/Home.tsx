@@ -479,7 +479,7 @@ export default function Home() {
           textShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
           padding: '0 0.5rem'
         }}>
-          AI-powered, Web3-secure translation for 150+ languages, local dialects, gestures, and sign language—built for everyone.
+          AI-powered, Web3-secure Translation for 150+ Languages, Local Dialects, Gestures, and Sign Language—built for everyone.
         </p>
 
         {/* Key Features Grid - Mobile Optimized */}
@@ -493,10 +493,11 @@ export default function Home() {
           padding: '0 0.5rem'
         }}>
           {[
-            { icon: '⚡', text: 'Fast & accurate real-time translations' },
-            { icon: '🌍', text: 'Inclusive: voice, text, gesture & sign language' },
-            { icon: '👥', text: 'Accessible for travelers, students & impaired users' },
-            { icon: '🔒', text: 'Private, secure, and decentralized' }
+            { icon: '⚡', text: 'Fast & Accurate Real-Time Translations' },
+            { icon: '🌍', text: 'Inclusive: Voice, Text, Gesture & Sign Language' },
+            { icon: '👥', text: 'Accessible for Travelers, Students & Impaired Users' },
+            { icon: '🔒', text: 'Private, Secure, and Decentralized' },
+            { icon: '💰', text: 'Get Rewarded for Every Translation you make' }
           ].map((feature, index) => (
             <div key={index} className="mobile-feature" style={{
               backgroundColor: 'rgba(26, 26, 26, 0.7)',
@@ -617,9 +618,42 @@ export default function Home() {
                 e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg)';
               }}
             >
-              Upgrade to Pro Account
+              Upgrade To Pro Account
             </button>
           )}
+        </div>
+
+        {/* More Button */}
+        <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+          <button 
+            onClick={() => navigate('/about')}
+            style={{ 
+              color: '#3B82F6', 
+              background: 'none', 
+              border: '1px solid #3B82F6',
+              padding: '0.75rem 2rem',
+              borderRadius: '0.75rem',
+              cursor: 'pointer',
+              fontWeight: 'bold',
+              fontSize: '1rem',
+              transition: 'all 0.3s ease',
+              transform: 'perspective(1000px) rotateX(5deg)'
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = '#3B82F6';
+              e.currentTarget.style.color = '#ffffff';
+              e.currentTarget.style.boxShadow = '0 0 20px #3B82F6';
+              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) translateY(-2px)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#3B82F6';
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg)';
+            }}
+          >
+            More
+          </button>
         </div>
       </div>
 
@@ -658,7 +692,7 @@ export default function Home() {
               margin: '0 auto',
               lineHeight: '1.5'
             }}>
-              Breaking language barriers with AI-powered, Web3-secure translation technology for a more connected world.
+              Breaking Language Barriers with AI-Powered, Web3-Secure Translation Technology for a more Connected World.
             </p>
           </div>
 
@@ -749,8 +783,8 @@ export default function Home() {
               maxWidth: '400px',
               lineHeight: '1.4'
             }}>
-              © {new Date().getFullYear()} Powered by Luminix. All rights reserved. 
-              Building the future of inclusive communication.
+              © {new Date().getFullYear()} Powered by Luminix. All Rights Reserved. 
+              Building the Future of inclusive communication.
             </p>
           </div>
         </div>
