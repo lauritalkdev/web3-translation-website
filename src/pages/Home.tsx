@@ -134,7 +134,7 @@ export default function Home() {
             .mobile-button {
               padding: 0.75rem 1.5rem;
               font-size: 0.9rem;
-              width: 100%;
+              width: '100%';
               max-width: 280px;
             }
 
@@ -188,12 +188,12 @@ export default function Home() {
             
             .mobile-content h1 {
               font-size: 1.8rem;
-              margin-bottom: 1rem;
+              marginBottom: 1rem;
             }
             
             .mobile-content p {
               font-size: 0.9rem;
-              margin-bottom: 2rem;
+              marginBottom: 2rem;
             }
 
             footer {
@@ -246,6 +246,32 @@ export default function Home() {
           <div className="mobile-nav-buttons" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
             {!user ? (
               <>
+                <button 
+                  onClick={() => navigate('/about')}
+                  style={{ 
+                    color: '#3B82F6', 
+                    background: 'none', 
+                    border: '1px solid #3B82F6',
+                    padding: '0.4rem 1rem',
+                    borderRadius: '0.375rem',
+                    cursor: 'pointer',
+                    fontWeight: '500',
+                    transition: 'all 0.3s ease',
+                    fontSize: '0.9rem'
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.backgroundColor = '#3B82F6';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.boxShadow = '0 0 15px #3B82F6';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#3B82F6';
+                    e.currentTarget.style.boxShadow = 'none';
+                  }}
+                >
+                  About
+                </button>
                 <button 
                   onClick={() => navigate('/login')}
                   style={{ 
