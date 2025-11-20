@@ -1,14 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../lib/AuthContext';
+import GlobalAIImage from '../assets/images/global-ai-network.jpg';
+import InclusiveImage from '../assets/images/inclusive-communication.jpg';
 
 export default function About() {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
-
-  const handleLogout = () => {
-    signOut();
-    navigate('/');
-  };
 
   const openLinkedIn = () => {
     window.open('https://www.linkedin.com/company/luminixspace/', '_blank');
@@ -21,544 +16,299 @@ export default function About() {
   return (
     <div style={{ 
       minHeight: '100vh', 
+      backgroundColor: '#000000', 
       color: '#ffffff',
       width: '100%',
       overflowX: 'hidden',
-      background: `
-        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(34, 139, 34, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-        linear-gradient(135deg, #000000 0%, #0f0f23 30%, #1a1a2e 60%, #000000 100%)
-      `,
-      position: 'relative',
       display: 'flex',
       flexDirection: 'column'
     }}>
-      {/* Animated Background Elements - More Visible */}
-      <div style={{
-        position: 'absolute',
-        top: '15%',
-        left: '5%',
-        width: '120px',
-        height: '120px',
-        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.4) 0%, transparent 70%)',
-        borderRadius: '50%',
-        animation: 'float 6s ease-in-out infinite',
-        filter: 'blur(15px)',
-        zIndex: 1
-      }}></div>
-      <div style={{
-        position: 'absolute',
-        top: '65%',
-        right: '10%',
-        width: '180px',
-        height: '180px',
-        background: 'radial-gradient(circle, rgba(34, 139, 34, 0.3) 0%, transparent 70%)',
-        borderRadius: '50%',
-        animation: 'float 8s ease-in-out infinite 1s',
-        filter: 'blur(20px)',
-        zIndex: 1
-      }}></div>
-      <div style={{
-        position: 'absolute',
-        bottom: '25%',
-        left: '15%',
-        width: '150px',
-        height: '150px',
-        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%)',
-        borderRadius: '50%',
-        animation: 'float 7s ease-in-out infinite 2s',
-        filter: 'blur(18px)',
-        zIndex: 1
-      }}></div>
-      <div style={{
-        position: 'absolute',
-        top: '40%',
-        right: '25%',
-        width: '100px',
-        height: '100px',
-        background: 'radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%)',
-        borderRadius: '50%',
-        animation: 'float 9s ease-in-out infinite 0.5s',
-        filter: 'blur(12px)',
-        zIndex: 1
-      }}></div>
-
+      {/* Viewport Meta for Mobile */}
       <style>
         {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-25px) rotate(180deg) scale(1.1); }
-          }
-
           @media (max-width: 768px) {
-            .mobile-nav {
-              flex-direction: column;
-              gap: 0.5rem;
-              padding: 1rem;
-            }
-            
-            .mobile-nav-buttons {
-              flex-wrap: wrap;
-              justify-content: center;
-              gap: 0.5rem;
-            }
-            
-            .mobile-user-info {
-              text-align: center;
-              margin-bottom: 0.5rem;
-              font-size: 0.8rem;
-            }
-            
-            .mobile-content {
-              padding: 2rem 1rem;
-            }
-            
-            .mobile-grid {
-              grid-template-columns: 1fr;
-              gap: 1rem;
-              margin: 0 auto 2rem;
-              max-width: 100%;
-            }
-            
-            .mobile-feature {
-              padding: 1rem;
-              margin: 0 0.5rem;
-            }
-            
-            .mobile-buttons {
-              gap: 0.75rem;
-              padding: 0 0.5rem;
-            }
-            
-            .mobile-button {
-              padding: 0.75rem 1.5rem;
-              font-size: 0.9rem;
+            body {
+              margin: 0;
+              padding: 0;
               width: 100%;
-              max-width: 280px;
+              overflow-x: hidden;
             }
-
-            footer {
-              padding: 1.5rem 0.5rem !important;
-            }
-            
-            footer > div {
-              padding: 0 0.5rem;
-            }
-
-            /* Mobile header fixes for logged-in users */
-            .logged-in-mobile-header {
-              flex-direction: column;
-              gap: 0.75rem;
-            }
-            
-            .logged-in-user-info {
-              order: -1;
+            html {
+              margin: 0;
+              padding: 0;
               width: 100%;
-              text-align: center;
-              margin-bottom: 0.5rem;
-            }
-            
-            .logged-in-buttons {
-              display: flex;
-              flex-wrap: wrap;
-              justify-content: center;
-              gap: 0.5rem;
-              width: '100%';
-            }
-            
-            .logged-in-buttons button {
-              flex: 1;
-              min-width: 80px;
-              max-width: 120px;
-              font-size: 0.8rem;
-              padding: 0.4rem 0.6rem;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .mobile-user-info {
-              font-size: 0.75rem;
-            }
-            
-            .mobile-nav-buttons button {
-              padding: 0.35rem 0.75rem;
-              font-size: 0.8rem;
-            }
-            
-            .mobile-content h1 {
-              font-size: 1.8rem;
-              margin-bottom: 1rem;
-            }
-            
-            .mobile-content p {
-              font-size: 0.9rem;
-              margin-bottom: 2rem;
-            }
-
-            footer {
-              padding: 1rem 0.25rem !important;
-            }
-            
-            footer > div {
-              padding: 0 0.25rem;
-            }
-
-            .logged-in-buttons button {
-              font-size: 0.75rem;
-              padding: 0.35rem 0.5rem;
-              min-width: 70px;
+              overflow-x: hidden;
             }
           }
         `}
       </style>
 
-      {/* Navigation - Mobile Responsive */}
+      {/* Navigation */}
       <nav style={{ 
-        background: 'rgba(0, 0, 0, 0.85)', 
-        borderBottom: '2px solid #D4AF37',
+        backgroundColor: '#000000', 
+        borderBottom: '1px solid #D4AF37', 
         padding: '1rem 0',
         width: '100%',
-        backdropFilter: 'blur(15px)',
-        position: 'relative',
-        zIndex: 10
+        boxSizing: 'border-box'
       }}>
-        <div className="mobile-nav" style={{ 
+        <div style={{ 
           maxWidth: '1200px',
           margin: '0 auto',
           padding: '0 1rem', 
           display: 'flex', 
           justifyContent: 'space-between', 
           alignItems: 'center',
-          flexWrap: 'wrap'
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <div style={{
-              width: '12px',
-              height: '12px',
-              backgroundColor: '#D4AF37',
-              borderRadius: '50%',
-              boxShadow: '0 0 10px #D4AF37'
-            }}></div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D4AF37', textShadow: '0 0 8px #D4AF37' }}>Web3 Translate</h1>
-          </div>
-          
-          <div className="mobile-nav-buttons" style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            {!user ? (
-              <>
-                <button 
-                  onClick={() => navigate('/login')}
-                  style={{ 
-                    color: '#D4AF37', 
-                    background: 'none', 
-                    border: '1px solid #D4AF37',
-                    padding: '0.4rem 1rem',
-                    borderRadius: '0.375rem',
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#D4AF37';
-                    e.currentTarget.style.color = '#000000';
-                    e.currentTarget.style.boxShadow = '0 0 15px #D4AF37';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#D4AF37';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  Login
-                </button>
-                <button 
-                  onClick={() => navigate('/register')}
-                  style={{ 
-                    backgroundColor: '#228B22', 
-                    color: 'white', 
-                    padding: '0.4rem 1rem', 
-                    borderRadius: '0.375rem', 
-                    border: 'none', 
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    boxShadow: '0 0 10px #228B22',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.boxShadow = '0 0 20px #228B22, 0 0 30px #228B22';
-                    e.currentTarget.style.transform = 'translateY(-2px)';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.boxShadow = '0 0 10px #228B22';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  Sign Up
-                </button>
-              </>
-            ) : (
-              <div className="logged-in-mobile-header" style={{ 
-                display: 'flex', 
-                flexDirection: 'column', 
-                alignItems: 'center', 
-                gap: '0.75rem',
-                width: '100%'
-              }}>
-                <div className="logged-in-user-info" style={{ 
-                  color: '#D4AF37', 
-                  fontSize: '0.9rem', 
-                  textAlign: 'center',
-                  width: '100%'
-                }}>
-                  Welcome, {user.email?.split('@')[0]}
-                </div>
-                <div className="logged-in-buttons" style={{ 
-                  display: 'flex', 
-                  gap: '0.5rem', 
-                  justifyContent: 'center',
-                  width: '100%',
-                  flexWrap: 'wrap'
-                }}>
-                  <button 
-                    onClick={() => navigate('/about')}
-                    style={{ 
-                      color: '#3B82F6', 
-                      background: 'none', 
-                      border: '1px solid #3B82F6',
-                      padding: '0.4rem 0.8rem',
-                      borderRadius: '0.375rem',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      transition: 'all 0.3s ease',
-                      fontSize: '0.8rem',
-                      flex: '1',
-                      minWidth: '80px',
-                      maxWidth: '100px'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#3B82F6';
-                      e.currentTarget.style.color = '#ffffff';
-                      e.currentTarget.style.boxShadow = '0 0 15px #3B82F6';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#3B82F6';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  >
-                    About
-                  </button>
-                  <button 
-                    onClick={() => navigate('/billing')}
-                    style={{ 
-                      backgroundColor: '#D4AF37', 
-                      color: '#000000', 
-                      padding: '0.4rem 0.8rem', 
-                      borderRadius: '0.375rem', 
-                      border: 'none', 
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      boxShadow: '0 0 10px #D4AF37',
-                      transition: 'all 0.3s ease',
-                      fontSize: '0.8rem',
-                      flex: '1',
-                      minWidth: '80px',
-                      maxWidth: '100px'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.boxShadow = '0 0 20px #D4AF37, 0 0 30px #D4AF37';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.boxShadow = '0 0 10px #D4AF37';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    Upgrade
-                  </button>
-                  <button 
-                    onClick={handleLogout}
-                    style={{ 
-                      color: '#EF4444', 
-                      background: 'none', 
-                      border: '1px solid #EF4444',
-                      padding: '0.4rem 0.8rem',
-                      borderRadius: '0.375rem',
-                      cursor: 'pointer',
-                      fontWeight: '500',
-                      transition: 'all 0.3s ease',
-                      fontSize: '0.8rem',
-                      flex: '1',
-                      minWidth: '80px',
-                      maxWidth: '100px'
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#EF4444';
-                      e.currentTarget.style.color = '#ffffff';
-                      e.currentTarget.style.boxShadow = '0 0 15px #EF4444';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = '#EF4444';
-                      e.currentTarget.style.boxShadow = 'none';
-                    }}
-                  >
-                    Logout
-                  </button>
-                </div>
-              </div>
-            )}
+          <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D4AF37' }}>Web3 Translate</h1>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <button 
+              onClick={() => navigate('/')}
+              style={{ color: '#ffffff', background: 'none', border: 'none', cursor: 'pointer' }}
+            >
+              Home
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* About Content Section - Mobile Optimized */}
-      <div className="mobile-content" style={{ 
+      {/* Main Content */}
+      <div style={{ 
         maxWidth: '1200px',
         margin: '0 auto',
         padding: '3rem 1rem',
-        textAlign: 'center',
-        position: 'relative',
-        zIndex: 5,
         flex: '1',
         width: '100%',
         boxSizing: 'border-box'
       }}>
-        {/* About Title */}
         <h1 style={{ 
-          fontSize: 'clamp(1.8rem, 5vw, 3.5rem)', 
+          fontSize: '2.5rem', 
           fontWeight: 'bold', 
-          marginBottom: '1.5rem',
-          background: 'linear-gradient(135deg, #D4AF37 0%, #FFFFFF 50%, #228B22 100%)',
-          backgroundClip: 'text',
-          WebkitBackgroundClip: 'text',
-          color: 'transparent',
-          textShadow: '0 0 30px rgba(212, 175, 55, 0.5)',
-          lineHeight: '1.2',
-          padding: '0 0.5rem'
+          color: '#D4AF37', 
+          textAlign: 'center', 
+          marginBottom: '3rem',
+          textShadow: '0 0 10px #D4AF37, 0 0 20px #D4AF37'
         }}>
-          About Web3 Translate
+          About Lauritalk 🌍
         </h1>
 
-        {/* About Subtitle */}
-        <p style={{ 
-          fontSize: 'clamp(0.9rem, 3vw, 1.25rem)', 
-          color: '#E5E7EB', 
-          marginBottom: '2rem', 
-          maxWidth: '600px',
-          margin: '0 auto 2rem',
-          lineHeight: '1.6',
-          textShadow: '0 0 10px rgba(0, 0, 0, 0.5)',
-          padding: '0 0.5rem'
+        {/* Lauritalk App with Professional Image Layout */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
         }}>
-          Revolutionizing communication through AI-powered, decentralized translation technology that bridges languages and cultures worldwide.
-        </p>
-
-        {/* Mission & Vision Grid - Mobile Optimized */}
-        <div className="mobile-grid" style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1.5rem',
-          marginBottom: '2rem',
-          maxWidth: '1000px',
-          margin: '0 auto 2rem',
-          padding: '0 0.5rem'
-        }}>
-          {[
-            { 
-              icon: '🎯', 
-              title: 'Our Mission', 
-              text: 'To break down language barriers and create a more connected, inclusive world where everyone can communicate freely regardless of their native language or abilities.' 
-            },
-            { 
-              icon: '🔭', 
-              title: 'Our Vision', 
-              text: 'A future where real-time, accurate translation is accessible to all, powered by cutting-edge AI and secured by Web3 technology for complete privacy and decentralization.' 
-            },
-            { 
-              icon: '💎', 
-              title: 'Our Values', 
-              text: 'Accessibility, privacy, innovation, and inclusivity drive everything we do. We believe communication is a fundamental human right that should be available to everyone.' 
-            },
-            { 
-              icon: '🚀', 
-              title: 'Our Technology', 
-              text: 'Leveraging advanced AI models, blockchain security, and intuitive interfaces to deliver seamless translation experiences across text, voice, gestures, and sign language.' 
-            }
-          ].map((item, index) => (
-            <div key={index} className="mobile-feature" style={{
-              backgroundColor: 'rgba(26, 26, 26, 0.7)',
-              padding: '1.5rem',
-              borderRadius: '1rem',
-              border: `1px solid ${index % 2 === 0 ? '#D4AF37' : '#228B22'}`,
-              textAlign: 'center',
-              boxShadow: `0 0 20px rgba(${index % 2 === 0 ? '212, 175, 55' : '34, 139, 34'}, 0.3)`,
-              transform: 'perspective(1000px) rotateX(5deg)',
-              transition: 'all 0.3s ease',
-              backdropFilter: 'blur(10px)',
-              minHeight: '200px',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) translateY(-5px)';
-              e.currentTarget.style.boxShadow = `0 10px 30px rgba(${index % 2 === 0 ? '212, 175, 55' : '34, 139, 34'}, 0.5)`;
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg)';
-              e.currentTarget.style.boxShadow = `0 0 20px rgba(${index % 2 === 0 ? '212, 175, 55' : '34, 139, 34'}, 0.3)`;
-            }}
-            >
-              <div style={{ fontSize: '2.5rem', marginBottom: '1rem' }}>{item.icon}</div>
-              <h3 style={{ 
-                color: '#D4AF37', 
-                fontSize: '1.2rem', 
-                fontWeight: 'bold',
-                marginBottom: '0.75rem'
-              }}>
-                {item.title}
-              </h3>
-              <p style={{ color: '#E5E7EB', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>{item.text}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', textAlign: 'center', textShadow: '0 0 8px #D4AF37' }}>
+              🚀 What is Lauritalk?
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
+                <img 
+                  src={GlobalAIImage} 
+                  alt="Global AI Translation Network"
+                  style={{
+                    width: '100%',
+                    borderRadius: '0.5rem',
+                    border: '2px solid #3B82F6',
+                    boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)',
+                    maxWidth: '100%',
+                    height: 'auto'
+                  }}
+                />
+              </div>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
+                <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
+                  Lauritalk is an AI-powered, Web3 inclusive language translation platform designed to break communication barriers worldwide. 
+                  Built with cutting-edge AI and inclusive communication technologies, we empower users to translate text, voice, gesture, 
+                  and sign language seamlessly across <strong style={{color: '#228B22', textShadow: '0 0 5px #228B22'}}>120+ global and local languages</strong>.
+                </p>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* Back to Home Button */}
-        <div className="mobile-buttons" style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap', marginBottom: '2rem', padding: '0 0.5rem' }}>
-          <button 
-            onClick={() => navigate('/')}
-            className="mobile-button"
-            style={{ 
-              backgroundColor: '#D4AF37', 
-              color: '#000000', 
-              padding: '0.875rem 2rem', 
-              borderRadius: '0.75rem', 
-              border: 'none', 
-              fontWeight: 'bold', 
-              cursor: 'pointer',
-              fontSize: '1rem',
-              boxShadow: '0 0 20px #D4AF37',
-              transition: 'all 0.3s ease',
-              transform: 'perspective(1000px) rotateX(5deg)'
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.boxShadow = '0 0 30px #D4AF37, 0 0 40px #D4AF37';
-              e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) translateY(-3px)';
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.boxShadow = '0 0 20px #D4AF37';
-              e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg)';
-            }}
-          >
-            Back to Home
-          </button>
+        {/* Who We Are */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          textAlign: 'center',
+          animationDelay: '0.5s',
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
+            🏢 Who We Are
+          </h2>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
+            Lauritalk is a flagship product of <strong style={{color: '#D4AF37'}}>Luminix</strong>, a forward-thinking tech company focused on building 
+            AI and Web3 solutions that address real-world challenges. Where innovation meets purpose! 🎯
+          </p>
+        </div>
+
+        {/* Leadership */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          textAlign: 'center',
+          animationDelay: '1s',
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
+            👨‍💻 Our Leadership
+          </h2>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
+            Led by <strong style={{color: '#228B22'}}>Ebong Eric E.</strong>, Lead Developer at Luminix, whose vision is to build technology that gives everyone a voice. 
+            Merging AI, blockchain, and human-centered design to create breakthrough systems. 💡
+          </p>
+        </div>
+
+        {/* What We Do with Professional Image Layout */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          animationDelay: '1.5s',
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', textAlign: 'center', textShadow: '0 0 8px #228B22' }}>
+              🌟 What Lauritalk Does
+            </h2>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flexWrap: 'wrap-reverse' }}>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
+                <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', marginBottom: '1.5rem' }}>
+                  More than just translation—it's a complete communication ecosystem! 🎯
+                </p>
+                <ul style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', paddingLeft: '1.5rem' }}>
+                  <li>🌐 Translation of 120+ international languages</li>
+                  <li>🔄 Local dialect ↔ International language translation</li>
+                  <li>👋 Gesture-to-Voice/Text translation</li>
+                  <li>🤟 Sign-Language-to-Voice/Text translation</li>
+                  <li>🎯 Enhanced accessibility for impaired communities</li>
+                </ul>
+              </div>
+              <div style={{ flex: '1', minWidth: '300px', width: '100%' }}>
+                <img 
+                  src={InclusiveImage} 
+                  alt="Inclusive Communication & Accessibility Scene"
+                  style={{
+                    width: '100%',
+                    borderRadius: '0.5rem',
+                    border: '2px solid #228B22',
+                    boxShadow: '0 0 20px rgba(34, 139, 34, 0.5)',
+                    maxWidth: '100%',
+                    height: 'auto'
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Who We Serve */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          textAlign: 'center',
+          animationDelay: '2s',
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
+            👥 Who We Serve
+          </h2>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto 1.5rem' }}>
+            Designed for <strong style={{color: '#228B22'}}>everyone</strong>, especially:
+          </p>
+          <div style={{ display: 'inline-block', textAlign: 'left', maxWidth: '600px', width: '100%' }}>
+            <ul style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem' }}>
+              <li>✈️ International travelers & migrants</li>
+              <li>🎓 International students</li>
+              <li>👁️ Visually impaired individuals</li>
+              <li>🗣️ Speech & hearing-impaired persons</li>
+              <li>🏢 Businesses communicating across languages</li>
+            </ul>
+          </div>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '1.5rem auto 0' }}>
+            Ensuring <strong style={{color: '#228B22', textShadow: '0 0 5px #228B22'}}>no one is left behind</strong>! 🌍
+          </p>
+        </div>
+
+        {/* Web3 Integration */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          marginBottom: '2.5rem',
+          textAlign: 'center',
+          animationDelay: '2.5s',
+          transform: 'perspective(1000px) rotateX(-1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#228B22', marginBottom: '1.5rem', textShadow: '0 0 8px #228B22' }}>
+            ⛓️ Web3 Power
+          </h2>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
+            Lauritalk integrates Web3 for: <strong style={{color: '#D4AF37'}}>secure data interactions</strong>, 
+            <strong style={{color: '#D4AF37'}}> privacy-driven communication</strong>, and <strong style={{color: '#D4AF37'}}>transparent AI systems</strong>. 
+            Giving users more control and trust! 🔒
+          </p>
+        </div>
+
+        {/* Vision & Contact */}
+        <div className="breathing-box" style={{ 
+          backgroundColor: '#1a1a1a', 
+          padding: '2.5rem', 
+          borderRadius: '1rem',
+          border: '2px solid #3B82F6',
+          textAlign: 'center',
+          animationDelay: '3s',
+          transform: 'perspective(1000px) rotateX(1deg)',
+          width: '100%',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1.5rem', textShadow: '0 0 8px #D4AF37' }}>
+            🎯 Our Vision & Contact
+          </h2>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto 1.5rem' }}>
+            To become the world's most <strong style={{color: '#228B22'}}>inclusive, intelligent, and human-centered communication platform</strong>— 
+            empowering every person, everywhere, to connect without barriers. 🌈
+          </p>
+          <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
+            <strong style={{color: '#D4AF37'}}>Join us</strong> as we redefine global communication and make the world more inclusive—one translation at a time! 🚀
+          </p>
         </div>
       </div>
 
-      {/* Professional Footer - Mobile Centered */}
+      {/* Professional Footer - Updated with Facebook Icon */}
       <footer style={{
         backgroundColor: '#000000',
         borderTop: '2px solid #D4AF37',
@@ -690,6 +440,48 @@ export default function About() {
           </div>
         </div>
       </footer>
+
+      <style>
+        {`
+          .breathing-box {
+            animation: breathing 3s ease-in-out infinite;
+            box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+          }
+          
+          @keyframes breathing {
+            0% {
+              box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+            }
+            50% {
+              box-shadow: 0 0 15px #3B82F6, 0 0 30px rgba(59, 130, 246, 0.8), 0 0 40px rgba(59, 130, 246, 0.6), inset 0 0 15px rgba(59, 130, 246, 0.3);
+            }
+            100% {
+              box-shadow: 0 0 5px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.4), inset 0 0 10px rgba(59, 130, 246, 0.2);
+            }
+          }
+
+          /* Mobile-specific fixes */
+          @media (max-width: 768px) {
+            .breathing-box {
+              padding: 1.5rem !important;
+              margin-bottom: 1.5rem !important;
+            }
+            
+            h1 {
+              font-size: 2rem !important;
+              margin-bottom: 2rem !important;
+            }
+            
+            h2 {
+              font-size: 1.5rem !important;
+            }
+            
+            p, li {
+              font-size: 1rem !important;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 }
