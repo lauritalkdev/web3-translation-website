@@ -1,9 +1,10 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 export default function Register() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -16,6 +17,21 @@ export default function Register() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Auto-copy referral code from URL
+  useEffect(() => {
+    // Get referral code from URL query parameters
+    const searchParams = new URLSearchParams(location.search);
+    const refCode = searchParams.get('ref');
+    
+    if (refCode) {
+      console.log('🔗 Referral code detected in URL:', refCode);
+      setFormData(prev => ({
+        ...prev,
+        referralCode: refCode
+      }));
+    }
+  }, [location.search]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -24,24 +40,116 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
 
+    // Validation
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
       setLoading(false);
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (error) {
-      alert(error.message);
-    } else {
-      alert('Account created! Please check your email for verification.');
-      navigate('/login');
+    if (formData.password.length < 6) {
+      alert('Password must be at least 6 characters long!');
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      console.log('🚀 ===== REGISTRATION START =====');
+      console.log('📋 Form data:', {
+        email: formData.email,
+        fullName: formData.fullName,
+        country: formData.country,
+        referralCode: formData.referralCode,
+        hasReferralCode: !!formData.referralCode
+      });
+
+      // STEP 1: Create auth user with Supabase
+      // Store the referral code in user_metadata
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email.trim(),
+        password: formData.password,
+        options: {
+          data: {
+            full_name: formData.fullName.trim(),
+            country: formData.country,
+            referral_code: formData.referralCode.trim() || null // Store here for reference
+          }
+        }
+      });
+
+      console.log('📨 Supabase auth response:', { 
+        data: data ? 'Received' : 'No data',
+        error: error ? error.message : 'No error',
+        userId: data?.user?.id
+      });
+
+      if (error) {
+        console.error('❌ Registration error details:', error);
+        alert(`Registration failed: ${error.message}`);
+        setLoading(false);
+        return;
+      }
+
+      console.log('✅ Auth user created:', data.user?.id);
+      console.log('🏷️  Metadata stored:', data.user?.user_metadata);
+
+      // STEP 2: Wait a moment for Supabase to create the profile automatically
+      // Then update the profile with the referral code to trigger our database function
+      if (data.user?.id) {
+        // Wait 500ms to ensure profile is created by Supabase
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        console.log('🔄 Updating profile with referral code...');
+        
+        // Update the profile to add the referral code
+        // This will trigger our handle_registration_referral() function
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({
+            referral_code: formData.referralCode.trim() || null,
+            full_name: formData.fullName.trim()
+          })
+          .eq('id', data.user.id)
+          .select();
+
+        if (updateError) {
+          console.error('❌ Profile update error:', updateError);
+          
+          // If update fails, try the RPC function approach
+          if (formData.referralCode.trim()) {
+            console.log('🔄 Trying RPC function approach...');
+            const { error: rpcError } = await supabase.rpc(
+              'process_user_referral',
+              {
+                p_user_id: data.user.id,
+                p_referral_code: formData.referralCode.trim()
+              }
+            );
+            
+            if (rpcError) {
+              console.error('❌ RPC referral processing error:', rpcError);
+            } else {
+              console.log('✅ Referral processed via RPC');
+            }
+          }
+        } else {
+          console.log('✅ Profile updated with referral code');
+        }
+      }
+
+      console.log('🎯 Referral code used:', formData.referralCode);
+      console.log('🚀 ===== REGISTRATION COMPLETE =====');
+
+      // STEP 3: Show success and redirect
+      alert('✅ Account created successfully! Please check your email for verification.');
+      navigate('/login');
+
+    } catch (err: any) {
+      console.error('💥 Unexpected error:', err);
+      alert('An unexpected error occurred. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -71,7 +179,14 @@ export default function Register() {
           <div style={{ display: 'flex', gap: '1rem' }}>
             <button 
               onClick={() => navigate('/')}
-              style={{ color: '#ffffff', background: 'none', border: 'none', cursor: 'pointer' }}
+              style={{ 
+                color: '#ffffff', 
+                background: 'none', 
+                border: 'none', 
+                cursor: 'pointer',
+                padding: '0.5rem 1rem',
+                fontSize: '1rem'
+              }}
             >
               Home
             </button>
@@ -93,7 +208,8 @@ export default function Register() {
           backgroundColor: '#1a1a1a', 
           padding: '2.5rem', 
           borderRadius: '0.5rem',
-          border: '1px solid #D4AF37'
+          border: '1px solid #D4AF37',
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
         }}>
           <h2 style={{ 
             fontSize: '2rem', 
@@ -124,10 +240,13 @@ export default function Register() {
                   borderRadius: '0.375rem', 
                   color: '#ffffff',
                   fontSize: '1rem',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.3s'
                 }}
                 placeholder="Enter your full name"
                 required
+                onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                onBlur={(e) => e.target.style.borderColor = '#444444'}
               />
             </div>
 
@@ -149,10 +268,13 @@ export default function Register() {
                   borderRadius: '0.375rem', 
                   color: '#ffffff',
                   fontSize: '1rem',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.3s'
                 }}
                 placeholder="Enter your email"
                 required
+                onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                onBlur={(e) => e.target.style.borderColor = '#444444'}
               />
             </div>
 
@@ -173,13 +295,19 @@ export default function Register() {
                   borderRadius: '0.375rem', 
                   color: '#ffffff',
                   fontSize: '1rem',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.3s',
+                  appearance: 'none',
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23D4AF37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '16px'
                 }}
                 required
+                onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                onBlur={(e) => e.target.style.borderColor = '#444444'}
               >
                 <option value="">Select your country</option>
-                
-                {/* Africa */}
                 <optgroup label="🌍 Africa">
                   <option value="Cameroon">Cameroon</option>
                   <option value="Nigeria">Nigeria</option>
@@ -197,8 +325,6 @@ export default function Register() {
                   <option value="Algeria">Algeria</option>
                   <option value="Tunisia">Tunisia</option>
                 </optgroup>
-
-                {/* Asia */}
                 <optgroup label="🌏 Asia">
                   <option value="China">China</option>
                   <option value="India">India</option>
@@ -216,8 +342,6 @@ export default function Register() {
                   <option value="United Arab Emirates">United Arab Emirates</option>
                   <option value="Saudi Arabia">Saudi Arabia</option>
                 </optgroup>
-
-                {/* Europe */}
                 <optgroup label="🌍 Europe">
                   <option value="United Kingdom">United Kingdom</option>
                   <option value="Germany">Germany</option>
@@ -235,8 +359,6 @@ export default function Register() {
                   <option value="Poland">Poland</option>
                   <option value="Ukraine">Ukraine</option>
                 </optgroup>
-
-                {/* North America */}
                 <optgroup label="🌎 North America">
                   <option value="United States">United States</option>
                   <option value="Canada">Canada</option>
@@ -249,8 +371,6 @@ export default function Register() {
                   <option value="Honduras">Honduras</option>
                   <option value="El Salvador">El Salvador</option>
                 </optgroup>
-
-                {/* South America */}
                 <optgroup label="🌎 South America">
                   <option value="Brazil">Brazil</option>
                   <option value="Argentina">Argentina</option>
@@ -263,8 +383,6 @@ export default function Register() {
                   <option value="Paraguay">Paraguay</option>
                   <option value="Uruguay">Uruguay</option>
                 </optgroup>
-
-                {/* Oceania */}
                 <optgroup label="🌏 Oceania">
                   <option value="Australia">Australia</option>
                   <option value="New Zealand">New Zealand</option>
@@ -273,8 +391,6 @@ export default function Register() {
                   <option value="Samoa">Samoa</option>
                   <option value="Tonga">Tonga</option>
                 </optgroup>
-
-                {/* Other */}
                 <option value="Other">Other (Not Listed)</option>
               </select>
             </div>
@@ -298,10 +414,14 @@ export default function Register() {
                     borderRadius: '0.375rem', 
                     color: '#ffffff',
                     fontSize: '1rem',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.3s'
                   }}
-                  placeholder="Create a password"
+                  placeholder="Create a password (min. 6 characters)"
                   required
+                  minLength={6}
+                  onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                  onBlur={(e) => e.target.style.borderColor = '#444444'}
                 />
                 <button 
                   type="button"
@@ -318,8 +438,12 @@ export default function Register() {
                     fontSize: '1rem',
                     padding: '0',
                     width: '1.5rem',
-                    height: '1.5rem'
+                    height: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
+                  title={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? '🙈' : '👁️'}
                 </button>
@@ -345,10 +469,14 @@ export default function Register() {
                     borderRadius: '0.375rem', 
                     color: '#ffffff',
                     fontSize: '1rem',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.3s'
                   }}
                   placeholder="Confirm your password"
                   required
+                  minLength={6}
+                  onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                  onBlur={(e) => e.target.style.borderColor = '#444444'}
                 />
                 <button 
                   type="button"
@@ -365,8 +493,12 @@ export default function Register() {
                     fontSize: '1rem',
                     padding: '0',
                     width: '1.5rem',
-                    height: '1.5rem'
+                    height: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
+                  title={showConfirmPassword ? "Hide password" : "Show password"}
                 >
                   {showConfirmPassword ? '🙈' : '👁️'}
                 </button>
@@ -375,9 +507,22 @@ export default function Register() {
 
             {/* Referral Code */}
             <div>
-              <label style={{ display: 'block', color: '#ffffff', marginBottom: '0.5rem', fontWeight: '500' }}>
-                Referral Code (Optional)
-              </label>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <label style={{ color: '#ffffff', fontWeight: '500' }}>
+                  Referral Code {formData.referralCode && '(Auto-filled)'}
+                </label>
+                {formData.referralCode && (
+                  <span style={{ 
+                    fontSize: '0.875rem', 
+                    color: '#22C55E',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    padding: '0.25rem 0.5rem',
+                    borderRadius: '0.25rem'
+                  }}>
+                    ✓ From referral link
+                  </span>
+                )}
+              </div>
               <input 
                 type="text" 
                 name="referralCode"
@@ -387,14 +532,23 @@ export default function Register() {
                   width: '100%', 
                   padding: '0.75rem 1rem', 
                   backgroundColor: '#2d2d2d', 
-                  border: '1px solid #444444', 
+                  border: formData.referralCode ? '1px solid #22C55E' : '1px solid #444444', 
                   borderRadius: '0.375rem', 
                   color: '#ffffff',
                   fontSize: '1rem',
-                  boxSizing: 'border-box'
+                  boxSizing: 'border-box',
+                  transition: 'border-color 0.3s'
                 }}
-                placeholder="Enter referral code if any"
+                placeholder="Will auto-fill from referral link"
+                readOnly={!!formData.referralCode}
+                onFocus={(e) => e.target.style.borderColor = '#D4AF37'}
+                onBlur={(e) => e.target.style.borderColor = formData.referralCode ? '#22C55E' : '#444444'}
               />
+              {formData.referralCode && (
+                <p style={{ fontSize: '0.875rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
+                  Using referral code: <strong>{formData.referralCode}</strong>
+                </p>
+              )}
             </div>
 
             {/* Submit Button */}
@@ -403,7 +557,7 @@ export default function Register() {
               disabled={loading}
               style={{ 
                 width: '100%', 
-                backgroundColor: loading ? '#666666' : '#228B22', 
+                background: loading ? 'linear-gradient(135deg, #666666 0%, #555555 100%)' : 'linear-gradient(135deg, #228B22 0%, #1B6B1B 100%)', 
                 color: '#ffffff', 
                 padding: '0.875rem', 
                 borderRadius: '0.375rem', 
@@ -411,10 +565,36 @@ export default function Register() {
                 fontWeight: 'bold',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 fontSize: '1rem',
-                marginTop: '1rem'
+                marginTop: '1rem',
+                transition: 'all 0.3s ease',
+                opacity: loading ? 0.7 : 1
+              }}
+              onMouseOver={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 5px 15px rgba(34, 139, 34, 0.4)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }
               }}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? (
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}>
+                  <div style={{ 
+                    width: '16px', 
+                    height: '16px', 
+                    border: '2px solid #ffffff', 
+                    borderTop: '2px solid transparent',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }}></div>
+                  Creating Account...
+                </span>
+              ) : 'Create Account'}
             </button>
           </form>
 
@@ -427,7 +607,9 @@ export default function Register() {
                 background: 'none', 
                 border: 'none', 
                 cursor: 'pointer',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                textDecoration: 'underline',
+                fontSize: '1rem'
               }}
             >
               Sign in here
@@ -435,6 +617,14 @@ export default function Register() {
           </p>
         </div>
       </div>
+
+      {/* Add CSS for spinner animation */}
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }
