@@ -548,50 +548,19 @@ export default function Dashboard(): React.ReactElement {
                       <span>💬</span> Support
                     </button>
 
+                    {/* Upgrade to Pro Button - Added new button */}
                     <button
                       onClick={() => {
-                        navigate('/about');
+                        navigate('/billing');
                         setShowProfileMenu(false);
                       }}
                       style={{
                         width: '100%',
                         textAlign: 'left',
                         padding: '0.75rem 1rem',
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#E5E7EB',
-                        cursor: 'pointer',
-                        fontSize: '0.9rem',
-                        borderRadius: '0.25rem',
-                        transition: 'all 0.2s ease',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem'
-                      }}
-                      onMouseOver={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(34, 139, 34, 0.1)';
-                        e.currentTarget.style.color = '#228B22';
-                      }}
-                      onMouseOut={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = '#E5E7EB';
-                      }}
-                    >
-                      <span>ℹ️</span> About
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        navigate('/');
-                        setShowProfileMenu(false);
-                      }}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        padding: '0.75rem 1rem',
-                        background: 'transparent',
-                        border: 'none',
-                        color: '#3B82F6',
+                        background: 'rgba(212, 175, 55, 0.2)',
+                        border: '1px solid #D4AF37',
+                        color: '#D4AF37',
                         cursor: 'pointer',
                         fontSize: '0.9rem',
                         borderRadius: '0.25rem',
@@ -599,16 +568,19 @@ export default function Dashboard(): React.ReactElement {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '0.5rem',
-                        marginTop: '0.25rem'
+                        fontWeight: 'bold',
+                        marginTop: '0.5rem'
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.1)';
+                        e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.3)';
+                        e.currentTarget.style.boxShadow = '0 0 10px rgba(212, 175, 55, 0.3)';
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.2)';
+                        e.currentTarget.style.boxShadow = 'none';
                       }}
                     >
-                      <span>🏠</span> Home
+                      <span>🚀</span> Upgrade to Pro
                     </button>
 
                     <button
