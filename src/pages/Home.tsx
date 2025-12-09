@@ -325,32 +325,6 @@ export default function Home() {
             {!user ? (
               <>
                 <button 
-                  onClick={() => navigate('/about')}
-                  style={{ 
-                    color: '#3B82F6', 
-                    background: 'none', 
-                    border: '1px solid #3B82F6',
-                    padding: '0.4rem 1rem',
-                    borderRadius: '0.375rem',
-                    cursor: 'pointer',
-                    fontWeight: '500',
-                    transition: 'all 0.3s ease',
-                    fontSize: '0.9rem'
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.backgroundColor = '#3B82F6';
-                    e.currentTarget.style.color = '#ffffff';
-                    e.currentTarget.style.boxShadow = '0 0 15px #3B82F6';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.color = '#3B82F6';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
-                >
-                  About
-                </button>
-                <button 
                   onClick={() => navigate('/login')}
                   style={{ 
                     color: '#D4AF37', 
@@ -1108,39 +1082,6 @@ export default function Home() {
               <p style={{ color: '#E5E7EB', lineHeight: '1.8', fontSize: '1.1rem', maxWidth: '800px', margin: '0 auto' }}>
                 <strong style={{color: '#D4AF37'}}>Join us</strong> as we redefine global communication and make the world more inclusive—one translation at a time! 🚀
               </p>
-            </div>
-
-            {/* Learn More Button */}
-            <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-              <button 
-                onClick={() => navigate('/about')}
-                style={{ 
-                  color: '#3B82F6', 
-                  background: 'none', 
-                  border: '1px solid #3B82F6',
-                  padding: '0.75rem 2rem',
-                  borderRadius: '0.75rem',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                  fontSize: '1rem',
-                  transition: 'all 0.3s ease',
-                  transform: 'perspective(1000px) rotateX(5deg)'
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = '#3B82F6';
-                  e.currentTarget.style.color = '#ffffff';
-                  e.currentTarget.style.boxShadow = '0 0 20px #3B82F6';
-                  e.currentTarget.style.transform = 'perspective(1000px) rotateX(0deg) translateY(-2px)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#3B82F6';
-                  e.currentTarget.style.boxShadow = 'none';
-                  e.currentTarget.style.transform = 'perspective(1000px) rotateX(5deg)';
-                }}
-              >
-                Learn More About Lauritalk
-              </button>
             </div>
           </div>
         )}
