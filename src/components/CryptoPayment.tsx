@@ -5,7 +5,7 @@ import PaymentSuccess from './PaymentSuccess';
 import './CryptoPayment.css';
 
 const CryptoPayment: React.FC = () => {
-  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'annual'>('monthly');
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | '6month' | 'annual'>('monthly');
   const [selectedCurrency, setSelectedCurrency] = useState('btc');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showPaymentDisplay, setShowPaymentDisplay] = useState(false);
@@ -126,16 +126,25 @@ const CryptoPayment: React.FC = () => {
             type="radio"
             value="monthly"
             checked={selectedPlan === 'monthly'}
-            onChange={(e) => setSelectedPlan(e.target.value as 'monthly' | 'annual')}
+            onChange={(e) => setSelectedPlan(e.target.value as 'monthly' | '6month' | 'annual')}
           />
           Monthly - $7
         </label>
         <label>
           <input
             type="radio"
+            value="6month"
+            checked={selectedPlan === '6month'}
+            onChange={(e) => setSelectedPlan(e.target.value as 'monthly' | '6month' | 'annual')}
+          />
+          6 Months - $40
+        </label>
+        <label>
+          <input
+            type="radio"
             value="annual"
             checked={selectedPlan === 'annual'}
-            onChange={(e) => setSelectedPlan(e.target.value as 'monthly' | 'annual')}
+            onChange={(e) => setSelectedPlan(e.target.value as 'monthly' | '6month' | 'annual')}
           />
           Annual - $60
         </label>

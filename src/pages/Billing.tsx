@@ -92,6 +92,38 @@ export default function Billing() {
             </p>
           </div>
 
+          {/* 6-Month Plan */}
+          <div style={{ 
+            backgroundColor: '#1a1a1a', 
+            padding: '2rem', 
+            borderRadius: '0.5rem',
+            border: '1px solid #333333',
+            textAlign: 'center'
+          }}>
+            <div style={{ 
+              backgroundColor: '#8A2BE2', 
+              color: '#ffffff', 
+              padding: '0.5rem', 
+              borderRadius: '0.25rem',
+              fontWeight: 'bold',
+              marginBottom: '1rem'
+            }}>
+              POPULAR
+            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ffffff', marginBottom: '1rem' }}>
+              6 Months
+            </h3>
+            <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#8A2BE2', marginBottom: '1rem' }}>
+              $40<span style={{ fontSize: '1rem', color: '#9CA3AF' }}>/6 months</span>
+            </div>
+            <div style={{ fontSize: '0.9rem', color: '#D4AF37', marginBottom: '0.5rem' }}>
+              Save $2 - Only $6.67/month
+            </div>
+            <p style={{ color: '#9CA3AF', marginBottom: '1.5rem' }}>
+              Great value for medium-term needs
+            </p>
+          </div>
+
           {/* Annual Plan */}
           <div style={{ 
             backgroundColor: '#1a1a1a', 
@@ -116,93 +148,51 @@ export default function Billing() {
             <div style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#D4AF37', marginBottom: '1rem' }}>
               $60<span style={{ fontSize: '1rem', color: '#9CA3AF' }}>/year</span>
             </div>
+            <div style={{ fontSize: '0.9rem', color: '#D4AF37', marginBottom: '0.5rem' }}>
+              Save $24 - Only $5/month
+            </div>
             <p style={{ color: '#9CA3AF', marginBottom: '1.5rem' }}>
-              Save $24 - 2 months free
+              Best for long-term projects
             </p>
           </div>
         </div>
 
-        {/* Payment Methods */}
+        {/* Payment Methods - Now Only Crypto Payment */}
         <div style={{ 
           backgroundColor: '#1a1a1a', 
           padding: '2rem', 
           borderRadius: '0.5rem',
-          border: '1px solid #D4AF37'
+          border: '1px solid #D4AF37',
+          maxWidth: '800px',
+          margin: '0 auto'
         }}>
           <h3 style={{ 
             fontSize: '1.5rem', 
             fontWeight: 'bold', 
-            color: '#228B22', 
+            color: '#D4AF37', 
             textAlign: 'center',
             marginBottom: '2rem'
           }}>
-            Choose Payment Method
+            Pay with Crypto
           </h3>
           
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {/* Crypto Payment - REPLACED WITH ACTUAL COMPONENT */}
+            {/* Crypto Payment - Only Payment Method */}
             <div style={{ 
               backgroundColor: '#2d2d2d', 
               padding: '1.5rem', 
               borderRadius: '0.375rem', 
               border: '1px solid #333333'
             }}>
-              <h4 style={{ fontWeight: 'bold', color: '#D4AF37', marginBottom: '1rem' }}>
-                Pay with Crypto (NowPayments)
-              </h4>
+              <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                <h4 style={{ fontWeight: 'bold', color: '#D4AF37', marginBottom: '0.5rem', fontSize: '1.2rem' }}>
+                  Secure Crypto Payment
+                </h4>
+                <p style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>
+                  Pay with Bitcoin, Ethereum, USDT, and other cryptocurrencies
+                </p>
+              </div>
               <CryptoPayment />
-            </div>
-
-            {/* Card Payment */}
-            <div style={{ 
-              backgroundColor: '#2d2d2d', 
-              padding: '1.5rem', 
-              borderRadius: '0.375rem', 
-              border: '1px solid #333333'
-            }}>
-              <h4 style={{ fontWeight: 'bold', color: '#228B22', marginBottom: '0.5rem' }}>
-                Pay with Card
-              </h4>
-              <p style={{ color: '#9CA3AF', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                Secure payment via Stripe - Visa, MasterCard, American Express
-              </p>
-              <button style={{ 
-                backgroundColor: '#228B22', 
-                color: '#ffffff', 
-                padding: '0.75rem 1.5rem', 
-                borderRadius: '0.375rem', 
-                border: 'none', 
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}>
-                Pay with Card
-              </button>
-            </div>
-
-            {/* MoMo Payment */}
-            <div style={{ 
-              backgroundColor: '#2d2d2d', 
-              padding: '1.5rem', 
-              borderRadius: '0.375rem', 
-              border: '1px solid #333333'
-            }}>
-              <h4 style={{ fontWeight: 'bold', color: '#8A2BE2', marginBottom: '0.5rem' }}>
-                Pay with MoMo
-              </h4>
-              <p style={{ color: '#9CA3AF', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                Mobile Money payment - MTN Mobile Money, Orange Money
-              </p>
-              <button style={{ 
-                backgroundColor: '#8A2BE2', 
-                color: '#ffffff', 
-                padding: '0.75rem 1.5rem', 
-                borderRadius: '0.375rem', 
-                border: 'none', 
-                fontWeight: 'bold',
-                cursor: 'pointer'
-              }}>
-                Pay with MoMo
-              </button>
             </div>
           </div>
         </div>
@@ -335,7 +325,7 @@ export default function Billing() {
               lineHeight: '1.4'
             }}>
               © {new Date().getFullYear()} Powered by Luminix. All rights reserved. 
-              Building the future of inclusive communication.
+              Building the future of inclusive communication with AI/Web3.
             </p>
           </div>
         </div>
