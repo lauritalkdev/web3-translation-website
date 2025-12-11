@@ -314,9 +314,11 @@ export default function Dashboard(): React.ReactElement {
           padding: '0 1rem', 
           display: 'flex', 
           justifyContent: 'space-between', 
-          alignItems: 'center'
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          gap: '0.5rem'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexShrink: 0 }}>
             <div style={{
               width: '12px',
               height: '12px',
@@ -324,27 +326,42 @@ export default function Dashboard(): React.ReactElement {
               borderRadius: '50%',
               boxShadow: '0 0 10px #D4AF37'
             }}></div>
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D4AF37' }}>Lauritalk Dashboard</h1>
+            <h1 style={{ 
+              fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', 
+              fontWeight: 'bold', 
+              color: '#D4AF37',
+              whiteSpace: 'nowrap'
+            }}>
+              Lauritalk Dashboard
+            </h1>
           </div>
           
           {/* User Profile Menu Button - Replaced "Back to Home" button */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', position: 'relative' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem', 
+            position: 'relative',
+            flexShrink: 0
+          }}>
             {/* User Profile Button */}
             <button
               onClick={toggleProfileMenu}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
+                gap: '0.25rem',
                 background: 'transparent',
                 border: '1px solid #D4AF37',
                 borderRadius: '2rem',
-                padding: '0.4rem 0.8rem',
+                padding: '0.3rem 0.6rem',
                 cursor: 'pointer',
                 color: '#D4AF37',
-                fontSize: '0.9rem',
+                fontSize: 'clamp(0.7rem, 2vw, 0.9rem)',
                 fontWeight: '500',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                maxWidth: '150px',
+                overflow: 'hidden'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
@@ -356,8 +373,8 @@ export default function Dashboard(): React.ReactElement {
               }}
             >
               <div style={{
-                width: '24px',
-                height: '24px',
+                width: 'clamp(20px, 4vw, 24px)',
+                height: 'clamp(20px, 4vw, 24px)',
                 borderRadius: '50%',
                 background: 'linear-gradient(135deg, #D4AF37 0%, #228B22 100%)',
                 display: 'flex',
@@ -365,11 +382,18 @@ export default function Dashboard(): React.ReactElement {
                 justifyContent: 'center',
                 color: '#000',
                 fontWeight: 'bold',
-                fontSize: '0.8rem'
+                fontSize: 'clamp(0.6rem, 2vw, 0.8rem)',
+                flexShrink: 0
               }}>
                 {user?.email?.charAt(0).toUpperCase() || 'U'}
               </div>
-              <span style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ 
+                maxWidth: '70px', 
+                overflow: 'hidden', 
+                textOverflow: 'ellipsis', 
+                whiteSpace: 'nowrap',
+                flexShrink: 1
+              }}>
                 {user?.email?.split('@')[0] || 'User'}
               </span>
             </button>
@@ -378,13 +402,14 @@ export default function Dashboard(): React.ReactElement {
             {showProfileMenu && (
               <div className="profile-menu" style={{
                 position: 'absolute',
-                top: '50px',
+                top: 'calc(100% + 5px)',
                 right: '0',
                 zIndex: 1000,
                 background: 'rgba(0, 0, 0, 0.95)',
                 border: '1px solid #D4AF37',
                 borderRadius: '0.5rem',
                 minWidth: '220px',
+                maxWidth: 'min(90vw, 300px)',
                 backdropFilter: 'blur(10px)',
                 boxShadow: '0 10px 30px rgba(0, 0, 0, 0.5)'
               }}>
@@ -410,10 +435,21 @@ export default function Dashboard(): React.ReactElement {
                     }}>
                       {user?.email?.charAt(0).toUpperCase() || 'U'}
                     </div>
-                    <p style={{ color: '#D4AF37', margin: '0 0 0.25rem', fontSize: '0.9rem', fontWeight: '500' }}>
+                    <p style={{ 
+                      color: '#D4AF37', 
+                      margin: '0 0 0.25rem', 
+                      fontSize: '0.9rem', 
+                      fontWeight: '500',
+                      wordBreak: 'break-word'
+                    }}>
                       {user?.email?.split('@')[0] || 'User'}
                     </p>
-                    <p style={{ color: '#9CA3AF', fontSize: '0.8rem', margin: 0 }}>
+                    <p style={{ 
+                      color: '#9CA3AF', 
+                      fontSize: '0.8rem', 
+                      margin: 0,
+                      wordBreak: 'break-word'
+                    }}>
                       {user?.email}
                     </p>
                   </div>
@@ -623,7 +659,8 @@ export default function Dashboard(): React.ReactElement {
       <div style={{ 
         maxWidth: '1400px',
         margin: '0 auto',
-        padding: '2rem 1rem'
+        padding: 'clamp(1rem, 3vw, 2rem) clamp(0.5rem, 2vw, 1rem)',
+        overflowX: 'hidden'
       }}>
         {/* Error Message (if any) */}
         {error && (
@@ -631,15 +668,16 @@ export default function Dashboard(): React.ReactElement {
             backgroundColor: 'rgba(239, 68, 68, 0.1)',
             border: '1px solid rgba(239, 68, 68, 0.3)',
             borderRadius: '0.5rem',
-            padding: '1rem',
-            marginBottom: '1rem',
-            color: '#EF4444'
+            padding: 'clamp(0.75rem, 2vw, 1rem)',
+            marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
+            color: '#EF4444',
+            fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
           }}>
-            <p style={{ margin: 0, fontWeight: 'bold' }}>⚠️ Backend Connection Issue</p>
-            <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem' }}>
+            <p style={{ margin: 0, fontWeight: 'bold', fontSize: 'clamp(0.9rem, 2.5vw, 1rem)' }}>⚠️ Backend Connection Issue</p>
+            <p style={{ margin: '0.5rem 0 0 0', fontSize: 'clamp(0.75rem, 2vw, 0.85rem)' }}>
               {error}
               <br />
-              <small>
+              <small style={{ fontSize: 'clamp(0.7rem, 2vw, 0.8rem)' }}>
                 Make sure the <code>get_user_compensation_summary</code> function exists in your Supabase database.
               </small>
             </p>
@@ -650,31 +688,52 @@ export default function Dashboard(): React.ReactElement {
         <div style={{
           backgroundColor: 'rgba(26, 26, 46, 0.7)',
           borderRadius: '1rem',
-          padding: '2rem',
-          marginBottom: '2rem',
+          padding: 'clamp(1.25rem, 4vw, 2rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)',
           border: '1px solid rgba(212, 175, 55, 0.3)',
-          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
+          boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)',
+          overflow: 'hidden',
+          wordBreak: 'break-word'
         }}>
           <h1 style={{ 
-            fontSize: '2rem', 
+            fontSize: 'clamp(1.5rem, 5vw, 2rem)', 
             fontWeight: 'bold', 
             color: '#D4AF37',
-            marginBottom: '0.5rem'
+            marginBottom: '0.5rem',
+            lineHeight: '1.2',
+            wordBreak: 'break-word'
           }}>
             Welcome, {userData.full_name}! 🎉
           </h1>
-          <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+          <p style={{ 
+            color: '#E5E7EB', 
+            fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
+            lineHeight: '1.4'
+          }}>
             Track your progress, earnings, and climb the ranks to unlock Infinity Bonuses!
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '1rem' }}>
-            <span style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Status:</span>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.5rem', 
+            marginTop: '1rem',
+            flexWrap: 'wrap'
+          }}>
+            <span style={{ 
+              color: '#9CA3AF', 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+              whiteSpace: 'nowrap'
+            }}>
+              Status:
+            </span>
             <span style={{ 
               color: '#22C55E', 
-              fontSize: '0.9rem',
+              fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)',
               backgroundColor: 'rgba(34, 197, 94, 0.1)',
               padding: '0.25rem 0.75rem',
               borderRadius: '9999px',
-              fontWeight: '500'
+              fontWeight: '500',
+              whiteSpace: 'nowrap'
             }}>
               {error ? 'Using Fallback Data' : 'Connected to Real Data'}
             </span>
@@ -684,46 +743,65 @@ export default function Dashboard(): React.ReactElement {
         {/* Stats Grid */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '1.5rem',
-          marginBottom: '2rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(300px, 100%), 1fr))',
+          gap: 'clamp(1rem, 3vw, 1.5rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)'
         }}>
           {/* Wallet Balance Card */}
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(34, 139, 34, 0.3)',
             boxShadow: '0 5px 20px rgba(34, 139, 34, 0.2)',
             position: 'relative'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 'clamp(0.75rem, 2vw, 1rem)', 
+              marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+              flexWrap: 'wrap'
+            }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: 'clamp(40px, 8vw, 50px)',
+                height: 'clamp(40px, 8vw, 50px)',
                 borderRadius: '50%',
                 backgroundColor: 'rgba(34, 139, 34, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.5rem'
+                fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
+                flexShrink: 0
               }}>
                 💰
               </div>
-              <div>
-                <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.25rem' }}>Wallet Balance</h3>
-                <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#228B22' }}>
+              <div style={{ flex: 1, minWidth: '150px' }}>
+                <h3 style={{ 
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+                  color: '#9CA3AF', 
+                  marginBottom: '0.25rem' 
+                }}>
+                  Wallet Balance
+                </h3>
+                <p style={{ 
+                  fontSize: 'clamp(1.5rem, 5vw, 1.8rem)', 
+                  fontWeight: 'bold', 
+                  color: '#228B22',
+                  wordBreak: 'break-word'
+                }}>
                   {formatCurrency(userData.wallet_balance_usd)}
                 </p>
               </div>
             </div>
             <div style={{ 
               backgroundColor: 'rgba(34, 139, 34, 0.1)', 
-              padding: '0.75rem', 
+              padding: 'clamp(0.5rem, 2vw, 0.75rem)', 
               borderRadius: '0.5rem',
-              marginBottom: '1rem'
+              marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+              fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)'
             }}>
-              <p style={{ color: '#86EFAC', fontSize: '0.85rem', margin: 0 }}>
+              <p style={{ color: '#86EFAC', margin: 0, lineHeight: '1.4' }}>
                 <strong>Direct Referral Bonus:</strong> 10% of every premium subscription
               </p>
             </div>
@@ -734,11 +812,12 @@ export default function Dashboard(): React.ReactElement {
                 background: 'rgba(34, 139, 34, 0.2)',
                 border: '1px solid #228B22',
                 color: '#228B22',
-                padding: '0.75rem',
+                padding: 'clamp(0.5rem, 2vw, 0.75rem)',
                 borderRadius: '0.5rem',
                 cursor: 'pointer',
                 fontWeight: '500',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                fontSize: 'clamp(0.85rem, 2.5vw, 1rem)'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(34, 139, 34, 0.3)';
@@ -755,27 +834,45 @@ export default function Dashboard(): React.ReactElement {
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(212, 175, 55, 0.3)',
             boxShadow: '0 5px 20px rgba(212, 175, 55, 0.2)',
             position: 'relative'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 'clamp(0.75rem, 2vw, 1rem)', 
+              marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+              flexWrap: 'wrap'
+            }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: 'clamp(40px, 8vw, 50px)',
+                height: 'clamp(40px, 8vw, 50px)',
                 borderRadius: '50%',
                 backgroundColor: 'rgba(212, 175, 55, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.5rem'
+                fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
+                flexShrink: 0
               }}>
                 🏆
               </div>
-              <div>
-                <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.25rem' }}>Current Rank</h3>
-                <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#D4AF37' }}>
+              <div style={{ flex: 1, minWidth: '150px' }}>
+                <h3 style={{ 
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+                  color: '#9CA3AF', 
+                  marginBottom: '0.25rem' 
+                }}>
+                  Current Rank
+                </h3>
+                <p style={{ 
+                  fontSize: 'clamp(1.5rem, 5vw, 1.8rem)', 
+                  fontWeight: 'bold', 
+                  color: '#D4AF37',
+                  wordBreak: 'break-word'
+                }}>
                   {userData.current_rank}
                 </p>
               </div>
@@ -783,12 +880,12 @@ export default function Dashboard(): React.ReactElement {
             {currentRank.infinity_bonus && currentRank.infinity_bonus > 0 && (
               <div style={{ 
                 backgroundColor: 'rgba(255, 0, 0, 0.1)', 
-                padding: '0.75rem', 
+                padding: 'clamp(0.5rem, 2vw, 0.75rem)', 
                 borderRadius: '0.5rem',
-                marginBottom: '1rem',
-                border: '1px solid rgba(255, 0, 0, 0.2)'
+                marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                fontSize: 'clamp(0.75rem, 2.5vw, 0.85rem)'
               }}>
-                <p style={{ color: '#FF6B6B', fontSize: '0.85rem', margin: 0 }}>
+                <p style={{ color: '#FF6B6B', margin: 0, lineHeight: '1.4' }}>
                   <strong>Infinity Bonus Active:</strong> {currentRank.infinity_bonus}%
                 </p>
               </div>
@@ -800,11 +897,12 @@ export default function Dashboard(): React.ReactElement {
                 background: 'rgba(212, 175, 55, 0.2)',
                 border: '1px solid #D4AF37',
                 color: '#D4AF37',
-                padding: '0.75rem',
+                padding: 'clamp(0.5rem, 2vw, 0.75rem)',
                 borderRadius: '0.5rem',
                 cursor: 'pointer',
                 fontWeight: '500',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                fontSize: 'clamp(0.85rem, 2.5vw, 1rem)'
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.3)';
@@ -821,43 +919,66 @@ export default function Dashboard(): React.ReactElement {
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(59, 130, 246, 0.3)',
             boxShadow: '0 5px 20px rgba(59, 130, 246, 0.2)',
             position: 'relative'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 'clamp(0.75rem, 2vw, 1rem)', 
+              marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+              flexWrap: 'wrap'
+            }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: 'clamp(40px, 8vw, 50px)',
+                height: 'clamp(40px, 8vw, 50px)',
                 borderRadius: '50%',
                 backgroundColor: 'rgba(59, 130, 246, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '1.5rem'
+                fontSize: 'clamp(1.25rem, 4vw, 1.5rem)',
+                flexShrink: 0
               }}>
                 📊
               </div>
-              <div>
-                <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.25rem' }}>Sales Volume</h3>
-                <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#3B82F6' }}>
+              <div style={{ flex: 1, minWidth: '150px' }}>
+                <h3 style={{ 
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+                  color: '#9CA3AF', 
+                  marginBottom: '0.25rem' 
+                }}>
+                  Sales Volume
+                </h3>
+                <p style={{ 
+                  fontSize: 'clamp(1.5rem, 5vw, 1.8rem)', 
+                  fontWeight: 'bold', 
+                  color: '#3B82F6',
+                  wordBreak: 'break-word'
+                }}>
                   {formatCurrency(userData.sales_volume)}
                 </p>
               </div>
             </div>
-            <div style={{ fontSize: '0.9rem', color: '#9CA3AF' }}>
+            <div style={{ 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+              color: '#9CA3AF',
+              lineHeight: '1.4'
+            }}>
               Next Rank: {userData.next_rank} ({formatCurrency(userData.required_volume_for_next_rank)})
             </div>
             {userData.next_rank_bonus > 0 && (
               <div style={{ 
                 backgroundColor: 'rgba(34, 197, 94, 0.1)', 
-                padding: '0.5rem', 
+                padding: 'clamp(0.375rem, 1.5vw, 0.5rem)', 
                 borderRadius: '0.375rem',
                 marginTop: '0.5rem',
-                border: '1px solid rgba(34, 197, 94, 0.2)'
+                border: '1px solid rgba(34, 197, 94, 0.2)',
+                fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)'
               }}>
-                <p style={{ color: '#86EFAC', fontSize: '0.8rem', margin: 0 }}>
+                <p style={{ color: '#86EFAC', margin: 0, lineHeight: '1.4' }}>
                   <strong>Next Rank Bonus:</strong> {formatCurrency(userData.next_rank_bonus)}
                 </p>
               </div>
@@ -869,23 +990,40 @@ export default function Dashboard(): React.ReactElement {
         <div style={{
           backgroundColor: 'rgba(26, 26, 46, 0.7)',
           borderRadius: '1rem',
-          padding: '2rem',
-          marginBottom: '2rem',
+          padding: 'clamp(1.25rem, 4vw, 2rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)',
           border: '1px solid rgba(212, 175, 55, 0.3)',
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#D4AF37' }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+            flexWrap: 'wrap',
+            gap: '0.5rem'
+          }}>
+            <h2 style={{ 
+              fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', 
+              fontWeight: 'bold', 
+              color: '#D4AF37',
+              lineHeight: '1.2'
+            }}>
               Progress to {userData.next_rank} Rank
             </h2>
-            <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3B82F6' }}>
+            <span style={{ 
+              fontSize: 'clamp(1rem, 3.5vw, 1.2rem)', 
+              fontWeight: 'bold', 
+              color: '#3B82F6',
+              whiteSpace: 'nowrap'
+            }}>
               {userData.progress_percentage.toFixed(1)}%
             </span>
           </div>
           
           <div style={{
             width: '100%',
-            height: '20px',
+            height: 'clamp(15px, 4vw, 20px)',
             backgroundColor: 'rgba(255, 255, 255, 0.1)',
             borderRadius: '10px',
             overflow: 'hidden',
@@ -902,7 +1040,14 @@ export default function Dashboard(): React.ReactElement {
             />
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem', color: '#9CA3AF' }}>
+          <div style={{ 
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+            color: '#9CA3AF',
+            flexWrap: 'wrap',
+            gap: '0.5rem'
+          }}>
             <span>Current: {formatCurrency(userData.sales_volume)}</span>
             <span>Target: {formatCurrency(userData.required_volume_for_next_rank)}</span>
           </div>
@@ -911,21 +1056,37 @@ export default function Dashboard(): React.ReactElement {
         {/* Referral Stats Section */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem',
-          marginBottom: '2rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
+          gap: 'clamp(1rem, 3vw, 1.5rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)'
         }}>
           {/* Total Referrals */}
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(34, 139, 34, 0.3)',
             textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2.5rem', color: '#228B22', marginBottom: '0.5rem' }}>👥</div>
-            <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.5rem' }}>Total Referrals</h3>
-            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ffffff' }}>
+            <div style={{ 
+              fontSize: 'clamp(2rem, 8vw, 2.5rem)', 
+              color: '#228B22', 
+              marginBottom: '0.5rem' 
+            }}>
+              👥
+            </div>
+            <h3 style={{ 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+              color: '#9CA3AF', 
+              marginBottom: '0.5rem' 
+            }}>
+              Total Referrals
+            </h3>
+            <p style={{ 
+              fontSize: 'clamp(1.5rem, 6vw, 2rem)', 
+              fontWeight: 'bold', 
+              color: '#ffffff' 
+            }}>
               {userData.total_referrals}
             </p>
           </div>
@@ -934,16 +1095,37 @@ export default function Dashboard(): React.ReactElement {
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(212, 175, 55, 0.3)',
             textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2.5rem', color: '#D4AF37', marginBottom: '0.5rem' }}>⭐</div>
-            <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.5rem' }}>Premium Referrals</h3>
-            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ffffff' }}>
+            <div style={{ 
+              fontSize: 'clamp(2rem, 8vw, 2.5rem)', 
+              color: '#D4AF37', 
+              marginBottom: '0.5rem' 
+            }}>
+              ⭐
+            </div>
+            <h3 style={{ 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+              color: '#9CA3AF', 
+              marginBottom: '0.5rem' 
+            }}>
+              Premium Referrals
+            </h3>
+            <p style={{ 
+              fontSize: 'clamp(1.5rem, 6vw, 2rem)', 
+              fontWeight: 'bold', 
+              color: '#ffffff' 
+            }}>
               {userData.premium_referrals}
             </p>
-            <p style={{ color: '#86EFAC', fontSize: '0.8rem', marginTop: '0.25rem' }}>
+            <p style={{ 
+              color: '#86EFAC', 
+              fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)', 
+              marginTop: '0.25rem',
+              lineHeight: '1.3'
+            }}>
               Earns 10% commission on each
             </p>
           </div>
@@ -952,16 +1134,37 @@ export default function Dashboard(): React.ReactElement {
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(59, 130, 246, 0.3)',
             textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2.5rem', color: '#3B82F6', marginBottom: '0.5rem' }}>🌱</div>
-            <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.5rem' }}>Free Referrals</h3>
-            <p style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ffffff' }}>
+            <div style={{ 
+              fontSize: 'clamp(2rem, 8vw, 2.5rem)', 
+              color: '#3B82F6', 
+              marginBottom: '0.5rem' 
+            }}>
+              🌱
+            </div>
+            <h3 style={{ 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+              color: '#9CA3AF', 
+              marginBottom: '0.5rem' 
+            }}>
+              Free Referrals
+            </h3>
+            <p style={{ 
+              fontSize: 'clamp(1.5rem, 6vw, 2rem)', 
+              fontWeight: 'bold', 
+              color: '#ffffff' 
+            }}>
               {userData.free_referrals}
             </p>
-            <p style={{ color: '#93C5FD', fontSize: '0.8rem', marginTop: '0.25rem' }}>
+            <p style={{ 
+              color: '#93C5FD', 
+              fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)', 
+              marginTop: '0.25rem',
+              lineHeight: '1.3'
+            }}>
               Potential future premium users
             </p>
           </div>
@@ -970,17 +1173,39 @@ export default function Dashboard(): React.ReactElement {
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
-            padding: '1.5rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
             border: '1px solid rgba(168, 85, 247, 0.3)',
             textAlign: 'center'
           }}>
-            <div style={{ fontSize: '2.5rem', color: '#A855F7', marginBottom: '0.5rem' }}>🔗</div>
-            <h3 style={{ fontSize: '0.9rem', color: '#9CA3AF', marginBottom: '0.5rem' }}>Your Referrer</h3>
-            <p style={{ fontSize: '1.1rem', fontWeight: 'bold', color: '#ffffff' }}>
+            <div style={{ 
+              fontSize: 'clamp(2rem, 8vw, 2.5rem)', 
+              color: '#A855F7', 
+              marginBottom: '0.5rem' 
+            }}>
+              🔗
+            </div>
+            <h3 style={{ 
+              fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+              color: '#9CA3AF', 
+              marginBottom: '0.5rem' 
+            }}>
+              Your Referrer
+            </h3>
+            <p style={{ 
+              fontSize: 'clamp(1rem, 4vw, 1.1rem)', 
+              fontWeight: 'bold', 
+              color: '#ffffff',
+              wordBreak: 'break-word'
+            }}>
               {userData.referrer_name}
             </p>
             {userData.referrer_email && (
-              <p style={{ fontSize: '0.8rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
+              <p style={{ 
+                fontSize: 'clamp(0.7rem, 2.5vw, 0.8rem)', 
+                color: '#9CA3AF', 
+                marginTop: '0.25rem',
+                wordBreak: 'break-word'
+              }}>
                 {userData.referrer_email}
               </p>
             )}
@@ -991,30 +1216,36 @@ export default function Dashboard(): React.ReactElement {
         <div style={{
           backgroundColor: 'rgba(26, 26, 46, 0.7)',
           borderRadius: '1rem',
-          padding: '2rem',
-          marginBottom: '2rem',
+          padding: 'clamp(1.25rem, 4vw, 2rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)',
           border: '1px solid rgba(59, 130, 246, 0.3)',
           boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)'
         }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#3B82F6', marginBottom: '1rem' }}>
+          <h2 style={{ 
+            fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', 
+            fontWeight: 'bold', 
+            color: '#3B82F6', 
+            marginBottom: 'clamp(0.75rem, 2vw, 1rem)' 
+          }}>
             Your Referral Link
           </h2>
           <div style={{
             display: 'flex',
-            gap: '1rem',
+            gap: 'clamp(0.75rem, 2vw, 1rem)',
             alignItems: 'center',
             flexWrap: 'wrap'
           }}>
             <div style={{
               flex: '1',
-              minWidth: '300px',
+              minWidth: '200px',
               backgroundColor: 'rgba(0, 0, 0, 0.3)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '0.5rem',
-              padding: '1rem',
+              padding: 'clamp(0.75rem, 2vw, 1rem)',
               fontFamily: 'monospace',
               wordBreak: 'break-all',
-              color: '#E5E7EB'
+              color: '#E5E7EB',
+              fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)'
             }}>
               {window.location.origin}/register?ref={userData.referral_code}
             </div>
@@ -1024,13 +1255,14 @@ export default function Dashboard(): React.ReactElement {
                 background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
                 border: 'none',
                 color: '#ffffff',
-                padding: '1rem 2rem',
+                padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem)',
                 borderRadius: '0.5rem',
                 cursor: 'pointer',
                 fontWeight: 'bold',
-                fontSize: '1rem',
+                fontSize: 'clamp(0.9rem, 2.5vw, 1rem)',
                 transition: 'all 0.3s ease',
-                whiteSpace: 'nowrap'
+                whiteSpace: 'nowrap',
+                flexShrink: 0
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
@@ -1046,12 +1278,13 @@ export default function Dashboard(): React.ReactElement {
           </div>
           <div style={{ 
             backgroundColor: 'rgba(34, 139, 34, 0.1)', 
-            padding: '1rem', 
+            padding: 'clamp(0.75rem, 2vw, 1rem)', 
             borderRadius: '0.5rem',
-            marginTop: '1rem',
-            border: '1px solid rgba(34, 139, 34, 0.2)'
+            marginTop: 'clamp(0.75rem, 2vw, 1rem)',
+            border: '1px solid rgba(34, 139, 34, 0.2)',
+            fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)'
           }}>
-            <p style={{ color: '#86EFAC', fontSize: '0.9rem', margin: 0 }}>
+            <p style={{ color: '#86EFAC', margin: 0, lineHeight: '1.4' }}>
               <strong>💰 Earn 10% Commission:</strong> For every $60 premium subscription, you earn $6 instantly!
               For every $7 monthly subscription, you earn $0.70!
             </p>
@@ -1062,7 +1295,7 @@ export default function Dashboard(): React.ReactElement {
         <div style={{
           backgroundColor: 'rgba(26, 26, 46, 0.7)',
           borderRadius: '1rem',
-          padding: '2rem',
+          padding: 'clamp(1.25rem, 4vw, 2rem)',
           border: isDeputyAmbassadorOrHigher ? '2px solid rgba(0, 255, 0, 0.3)' : '1px solid rgba(255, 0, 0, 0.3)',
           boxShadow: isDeputyAmbassadorOrHigher ? '0 10px 30px rgba(0, 255, 0, 0.1)' : '0 10px 30px rgba(255, 0, 0, 0.1)',
           background: isDeputyAmbassadorOrHigher 
@@ -1084,29 +1317,41 @@ export default function Dashboard(): React.ReactElement {
           }}></div>
           
           <div style={{ position: 'relative', zIndex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 'clamp(0.75rem, 2vw, 1rem)', 
+              marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+              flexWrap: 'wrap'
+            }}>
               <div style={{
-                width: '60px',
-                height: '60px',
+                width: 'clamp(40px, 10vw, 60px)',
+                height: 'clamp(40px, 10vw, 60px)',
                 borderRadius: '50%',
                 backgroundColor: isDeputyAmbassadorOrHigher ? 'rgba(0, 255, 0, 0.2)' : 'rgba(255, 0, 0, 0.2)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '2rem',
-                border: isDeputyAmbassadorOrHigher ? '2px solid rgba(0, 255, 0, 0.5)' : '2px solid rgba(255, 0, 0, 0.5)'
+                fontSize: 'clamp(1.5rem, 5vw, 2rem)',
+                border: isDeputyAmbassadorOrHigher ? '2px solid rgba(0, 255, 0, 0.5)' : '2px solid rgba(255, 0, 0, 0.5)',
+                flexShrink: 0
               }}>
                 ∞
               </div>
-              <div>
+              <div style={{ flex: 1, minWidth: '200px' }}>
                 <h2 style={{ 
-                  fontSize: '1.8rem', 
+                  fontSize: 'clamp(1.25rem, 4.5vw, 1.8rem)', 
                   fontWeight: 'bold', 
-                  color: isDeputyAmbassadorOrHigher ? '#00FF00' : '#FF0000' 
+                  color: isDeputyAmbassadorOrHigher ? '#00FF00' : '#FF0000',
+                  lineHeight: '1.2'
                 }}>
                   {isDeputyAmbassadorOrHigher ? '🎉 Infinity Bonus ACTIVE!' : 'Infinity Bonus Progress'}
                 </h2>
-                <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                <p style={{ 
+                  color: '#E5E7EB', 
+                  fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
+                  lineHeight: '1.4'
+                }}>
                   {isDeputyAmbassadorOrHigher 
                     ? `You're earning ${currentRank.infinity_bonus}% from qualified team members!`
                     : 'Unlock lifetime earnings from your network!'}
@@ -1117,39 +1362,76 @@ export default function Dashboard(): React.ReactElement {
             <div style={{
               backgroundColor: 'rgba(0, 0, 0, 0.3)',
               borderRadius: '1rem',
-              padding: '1.5rem',
-              marginBottom: '1.5rem'
+              padding: 'clamp(1rem, 3vw, 1.5rem)',
+              marginBottom: 'clamp(1rem, 3vw, 1.5rem)'
             }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <span style={{ color: '#9CA3AF' }}>Current Rank: {userData.current_rank}</span>
+              <div style={{ 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 'clamp(0.75rem, 2vw, 1rem)',
+                flexWrap: 'wrap',
+                gap: '0.5rem'
+              }}>
+                <span style={{ 
+                  color: '#9CA3AF', 
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                  wordBreak: 'break-word'
+                }}>
+                  Current Rank: {userData.current_rank}
+                </span>
                 <span style={{ 
                   color: isDeputyAmbassadorOrHigher ? '#00FF00' : '#FF0000', 
-                  fontWeight: 'bold' 
+                  fontWeight: 'bold',
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                  whiteSpace: 'nowrap'
                 }}>
                   {isDeputyAmbassadorOrHigher ? '✅ Infinity Bonus Active' : 'Deputy Ambassador Required'}
                 </span>
               </div>
               
               {/* Rank Progress */}
-              <div style={{ marginBottom: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                  <span style={{ color: '#E5E7EB' }}>Progress to Infinity Eligibility</span>
-                  <span style={{ color: '#3B82F6', fontWeight: 'bold' }}>
+              <div style={{ marginBottom: 'clamp(1rem, 3vw, 1.5rem)' }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  marginBottom: '0.5rem',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem'
+                }}>
+                  <span style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                    wordBreak: 'break-word'
+                  }}>
+                    Progress to Infinity Eligibility
+                  </span>
+                  <span style={{ 
+                    color: '#3B82F6', 
+                    fontWeight: 'bold',
+                    fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+                    whiteSpace: 'nowrap'
+                  }}>
                     {isDeputyAmbassadorOrHigher ? 'ACHIEVED!' : `${userData.distance_to_deputy_ambassador} ranks to go`}
                   </span>
                 </div>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
+                  gap: 'clamp(0.25rem, 1vw, 0.5rem)',
                   marginBottom: '1rem',
                   overflowX: 'auto',
-                  padding: '0.5rem 0'
+                  padding: '0.5rem 0',
+                  WebkitOverflowScrolling: 'touch'
                 }}>
                   {ranksData.map((rank, index) => (
-                    <div key={rank.rank} style={{ flex: '0 0 auto', textAlign: 'center', minWidth: '70px' }}>
+                    <div key={rank.rank} style={{ 
+                      flex: '0 0 auto', 
+                      textAlign: 'center', 
+                      minWidth: 'clamp(50px, 12vw, 70px)'
+                    }}>
                       <div style={{
-                        height: '30px',
+                        height: 'clamp(20px, 5vw, 30px)',
                         backgroundColor: userData.current_rank === rank.rank ? rank.color : 
                                        index < currentRankIndex ? rank.color : 'rgba(255, 255, 255, 0.1)',
                         border: userData.current_rank === rank.rank ? `2px solid ${rank.color}` : 'none',
@@ -1159,9 +1441,10 @@ export default function Dashboard(): React.ReactElement {
                                 index < currentRankIndex ? 0.7 : 0.3
                       }}></div>
                       <div style={{
-                        fontSize: '0.65rem',
+                        fontSize: 'clamp(0.55rem, 2vw, 0.65rem)',
                         color: userData.current_rank === rank.rank ? rank.color : '#9CA3AF',
-                        fontWeight: userData.current_rank === rank.rank ? 'bold' : 'normal'
+                        fontWeight: userData.current_rank === rank.rank ? 'bold' : 'normal',
+                        wordBreak: 'break-word'
                       }}>
                         {rank.rank.split(' ')[0]}
                       </div>
@@ -1174,17 +1457,23 @@ export default function Dashboard(): React.ReactElement {
               <div style={{
                 backgroundColor: isDeputyAmbassadorOrHigher ? 'rgba(0, 255, 0, 0.1)' : 'rgba(255, 0, 0, 0.1)',
                 borderRadius: '0.75rem',
-                padding: '1.5rem',
+                padding: 'clamp(1rem, 3vw, 1.5rem)',
                 border: isDeputyAmbassadorOrHigher ? '1px solid rgba(0, 255, 0, 0.3)' : '1px solid rgba(255, 0, 0, 0.3)'
               }}>
                 <h3 style={{ 
                   color: isDeputyAmbassadorOrHigher ? '#00FF00' : '#FFD700', 
-                  marginBottom: '1rem', 
-                  fontSize: '1.2rem' 
+                  marginBottom: 'clamp(0.75rem, 2vw, 1rem)', 
+                  fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+                  lineHeight: '1.2'
                 }}>
                   {isDeputyAmbassadorOrHigher ? '🚀 Your Active Infinity Bonuses:' : '🚀 Infinity Bonus Benefits (Deputy Ambassador+):'}
                 </h3>
-                <ul style={{ color: '#E5E7EB', paddingLeft: '1.5rem', lineHeight: '1.8' }}>
+                <ul style={{ 
+                  color: '#E5E7EB', 
+                  paddingLeft: 'clamp(1rem, 3vw, 1.5rem)', 
+                  lineHeight: '1.6',
+                  fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)'
+                }}>
                   <li>Earn <strong style={{color: isDeputyAmbassadorOrHigher ? '#00FF00' : '#FF0000'}}>
                     {isDeputyAmbassadorOrHigher ? (currentRank.infinity_bonus || 0) + '%' : '4-9%'} infinity bonus
                   </strong> from 1st generation qualified downlines</li>
@@ -1210,15 +1499,17 @@ export default function Dashboard(): React.ReactElement {
                     : 'linear-gradient(135deg, #FF0000 0%, #FF6B6B 100%)',
                   border: 'none',
                   color: '#000000',
-                  padding: '1rem 3rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 5vw, 3rem)',
                   borderRadius: '0.75rem',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '1.1rem',
+                  fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
                   transition: 'all 0.3s ease',
                   boxShadow: isDeputyAmbassadorOrHigher 
                     ? '0 5px 20px rgba(0, 255, 0, 0.3)' 
-                    : '0 5px 20px rgba(255, 0, 0, 0.3)'
+                    : '0 5px 20px rgba(255, 0, 0, 0.3)',
+                  width: '100%',
+                  maxWidth: '400px'
                 }}
                 onMouseOver={(e) => {
                   e.currentTarget.style.transform = 'translateY(-3px)';
@@ -1240,7 +1531,7 @@ export default function Dashboard(): React.ReactElement {
         </div>
       </div>
 
-      {/* All Ranks Modal - FIXED SECTION */}
+      {/* All Ranks Modal - MOBILE RESPONSIVE */}
       {showAllRanks && (
         <div style={{
           position: 'fixed',
@@ -1248,95 +1539,124 @@ export default function Dashboard(): React.ReactElement {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           zIndex: 1000,
-          padding: '1rem',
-          backdropFilter: 'blur(5px)'
+          padding: 'clamp(0.5rem, 2vw, 1rem)',
+          backdropFilter: 'blur(5px)',
+          overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch'
         }}>
           <div style={{
             backgroundColor: '#0f0f23',
-            borderRadius: '1.5rem',
-            padding: '2rem',
-            maxWidth: '1000px',
+            borderRadius: '1rem',
+            padding: 'clamp(1rem, 3vw, 2rem)',
             width: '100%',
+            maxWidth: '1000px',
             maxHeight: '90vh',
             overflowY: 'auto',
             border: '2px solid #D4AF37',
-            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)',
+            margin: 'auto 0'
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-              <h2 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#D4AF37' }}>All Ranks & Bonuses</h2>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              marginBottom: 'clamp(1rem, 3vw, 2rem)',
+              flexWrap: 'wrap',
+              gap: '0.5rem'
+            }}>
+              <h2 style={{ 
+                fontSize: 'clamp(1.5rem, 5vw, 2rem)', 
+                fontWeight: 'bold', 
+                color: '#D4AF37',
+                lineHeight: '1.2'
+              }}>
+                All Ranks & Bonuses
+              </h2>
               <button
                 onClick={() => setShowAllRanks(false)}
                 style={{
                   background: 'transparent',
                   border: '1px solid #EF4444',
                   color: '#EF4444',
-                  padding: '0.5rem 1rem',
+                  padding: 'clamp(0.4rem, 1.5vw, 0.5rem) clamp(0.75rem, 2vw, 1rem)',
                   borderRadius: '0.5rem',
                   cursor: 'pointer',
                   fontWeight: '500',
-                  fontSize: '1.1rem'
+                  fontSize: 'clamp(0.9rem, 2.5vw, 1.1rem)',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}
               >
                 ✕ Close
               </button>
             </div>
 
-            <div style={{ marginBottom: '2rem' }}>
+            <div style={{ 
+              marginBottom: 'clamp(1rem, 3vw, 2rem)',
+              overflowX: 'auto',
+              WebkitOverflowScrolling: 'touch'
+            }}>
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(5, 1fr)',
+                gridTemplateColumns: 'repeat(5, minmax(120px, 1fr))',
                 gap: '1px',
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 borderRadius: '0.5rem',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                minWidth: '600px'
               }}>
                 <div style={{
-                  padding: '1rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem)',
                   backgroundColor: 'rgba(212, 175, 55, 0.2)',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  color: '#D4AF37'
+                  color: '#D4AF37',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                 }}>
                   Rank
                 </div>
                 <div style={{
-                  padding: '1rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem)',
                   backgroundColor: 'rgba(212, 175, 55, 0.2)',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  color: '#D4AF37'
+                  color: '#D4AF37',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                 }}>
                   Min Volume
                 </div>
                 <div style={{
-                  padding: '1rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem)',
                   backgroundColor: 'rgba(212, 175, 55, 0.2)',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  color: '#D4AF37'
+                  color: '#D4AF37',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                 }}>
                   Rank Bonus
                 </div>
                 <div style={{
-                  padding: '1rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem)',
                   backgroundColor: 'rgba(212, 175, 55, 0.2)',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  color: '#D4AF37'
+                  color: '#D4AF37',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                 }}>
                   Infinity %
                 </div>
                 <div style={{
-                  padding: '1rem',
+                  padding: 'clamp(0.75rem, 2vw, 1rem)',
                   backgroundColor: 'rgba(212, 175, 55, 0.2)',
                   textAlign: 'center',
                   fontWeight: 'bold',
-                  color: '#D4AF37'
+                  color: '#D4AF37',
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)'
                 }}>
                   Status
                 </div>
@@ -1359,42 +1679,48 @@ export default function Dashboard(): React.ReactElement {
                   return (
                     <React.Fragment key={rank.rank}>
                       <div style={{
-                        padding: '1rem',
+                        padding: 'clamp(0.75rem, 2vw, 1rem)',
                         backgroundColor: 'rgba(26, 26, 46, 0.7)',
                         textAlign: 'center',
                         fontWeight: 'bold',
-                        color: rank.color
+                        color: rank.color,
+                        fontSize: 'clamp(0.75rem, 2vw, 0.85rem)',
+                        wordBreak: 'break-word'
                       }}>
                         {rank.rank}
                       </div>
                       <div style={{
-                        padding: '1rem',
+                        padding: 'clamp(0.75rem, 2vw, 1rem)',
                         backgroundColor: 'rgba(26, 26, 46, 0.7)',
                         textAlign: 'center',
-                        color: '#E5E7EB'
+                        color: '#E5E7EB',
+                        fontSize: 'clamp(0.75rem, 2vw, 0.85rem)'
                       }}>
                         {formatCurrency(rank.min_volume)}
                       </div>
                       <div style={{
-                        padding: '1rem',
+                        padding: 'clamp(0.75rem, 2vw, 1rem)',
                         backgroundColor: 'rgba(26, 26, 46, 0.7)',
                         textAlign: 'center',
-                        color: '#22C55E'
+                        color: '#22C55E',
+                        fontSize: 'clamp(0.75rem, 2vw, 0.85rem)'
                       }}>
                         {formatCurrency(rank.bonus)}
                       </div>
                       <div style={{
-                        padding: '1rem',
+                        padding: 'clamp(0.75rem, 2vw, 1rem)',
                         backgroundColor: 'rgba(26, 26, 46, 0.7)',
                         textAlign: 'center',
-                        color: rank.infinity_bonus && rank.infinity_bonus > 0 ? '#00FF00' : '#9CA3AF'
+                        color: rank.infinity_bonus && rank.infinity_bonus > 0 ? '#00FF00' : '#9CA3AF',
+                        fontSize: 'clamp(0.75rem, 2vw, 0.85rem)'
                       }}>
                         {rank.infinity_bonus && rank.infinity_bonus > 0 ? `${rank.infinity_bonus}%` : '-'}
                       </div>
                       <div style={{
-                        padding: '1rem',
+                        padding: 'clamp(0.75rem, 2vw, 1rem)',
                         backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        fontSize: 'clamp(0.75rem, 2vw, 0.85rem)'
                       }}>
                         <span style={{
                           color: statusColor,
@@ -1412,12 +1738,24 @@ export default function Dashboard(): React.ReactElement {
             <div style={{
               backgroundColor: 'rgba(212, 175, 55, 0.1)',
               borderRadius: '0.75rem',
-              padding: '1.5rem',
+              padding: 'clamp(1rem, 3vw, 1.5rem)',
               border: '1px solid rgba(212, 175, 55, 0.3)',
-              marginBottom: '1.5rem'
+              marginBottom: 'clamp(1rem, 3vw, 1.5rem)'
             }}>
-              <h3 style={{ color: '#D4AF37', marginBottom: '1rem', fontSize: '1.2rem' }}>💰 How to Earn:</h3>
-              <ul style={{ color: '#E5E7EB', lineHeight: '1.8' }}>
+              <h3 style={{ 
+                color: '#D4AF37', 
+                marginBottom: 'clamp(0.75rem, 2vw, 1rem)', 
+                fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+                lineHeight: '1.2'
+              }}>
+                💰 How to Earn:
+              </h3>
+              <ul style={{ 
+                color: '#E5E7EB', 
+                lineHeight: '1.6',
+                paddingLeft: 'clamp(1rem, 3vw, 1.5rem)',
+                fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)'
+              }}>
                 <li><strong>Direct Referral Bonus:</strong> 10% of every premium subscription your referrals make</li>
                 <li><strong>Sales Volume:</strong> Each referral's subscription amount adds to your volume</li>
                 <li><strong>Rank Bonus:</strong> One-time bonus awarded when you reach each rank</li>
@@ -1428,11 +1766,23 @@ export default function Dashboard(): React.ReactElement {
             <div style={{
               backgroundColor: 'rgba(255, 0, 0, 0.1)',
               borderRadius: '0.75rem',
-              padding: '1.5rem',
+              padding: 'clamp(1rem, 3vw, 1.5rem)',
               border: '1px solid rgba(255, 0, 0, 0.3)'
             }}>
-              <h3 style={{ color: '#FF6B6B', marginBottom: '1rem', fontSize: '1.2rem' }}>🎯 Infinity Bonus Adjustment Rule:</h3>
-              <ul style={{ color: '#E5E7EB', lineHeight: '1.8' }}>
+              <h3 style={{ 
+                color: '#FF6B6B', 
+                marginBottom: 'clamp(0.75rem, 2vw, 1rem)', 
+                fontSize: 'clamp(1rem, 3vw, 1.2rem)',
+                lineHeight: '1.2'
+              }}>
+                🎯 Infinity Bonus Adjustment Rule:
+              </h3>
+              <ul style={{ 
+                color: '#E5E7EB', 
+                lineHeight: '1.6',
+                paddingLeft: 'clamp(1rem, 3vw, 1.5rem)',
+                fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)'
+              }}>
                 <li>If you're Ambassador (5%) and have Deputy Ambassador (4%) in your team, you earn 1% (5% - 4%)</li>
                 <li>If you're Global Ambassador (7%) and have Ambassador (5%) in your team, you earn 2% (7% - 5%)</li>
                 <li>You only earn from 1st and 2nd generation qualified team members</li>
@@ -1447,8 +1797,8 @@ export default function Dashboard(): React.ReactElement {
       <footer style={{
         backgroundColor: 'rgba(15, 15, 35, 0.95)',
         borderTop: '2px solid #D4AF37',
-        padding: '2rem 1rem',
-        marginTop: '3rem'
+        padding: 'clamp(1rem, 3vw, 2rem) clamp(0.5rem, 2vw, 1rem)',
+        marginTop: 'clamp(1.5rem, 4vw, 3rem)'
       }}>
         <div style={{
           maxWidth: '1400px',
@@ -1456,23 +1806,25 @@ export default function Dashboard(): React.ReactElement {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: '1.5rem',
+          gap: 'clamp(1rem, 3vw, 1.5rem)',
           textAlign: 'center'
         }}>
           <p style={{ 
             color: '#9CA3AF', 
-            fontSize: '0.9rem',
-            maxWidth: '600px'
+            fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)',
+            maxWidth: '600px',
+            lineHeight: '1.5'
           }}>
             Every referral brings you closer to Infinity Bonuses and lifetime earnings! 🚀
           </p>
           <p style={{ 
             color: '#6B7280', 
-            fontSize: '0.8rem',
+            fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
             borderTop: '1px solid #374151',
-            paddingTop: '1rem',
+            paddingTop: 'clamp(0.75rem, 2vw, 1rem)',
             width: '100%',
-            maxWidth: '400px'
+            maxWidth: '400px',
+            lineHeight: '1.5'
           }}>
             © {new Date().getFullYear()} Lauritalk Compensation System. Your journey to financial freedom starts here.
           </p>
