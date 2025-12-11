@@ -1240,7 +1240,7 @@ export default function Dashboard(): React.ReactElement {
         </div>
       </div>
 
-      {/* All Ranks Modal */}
+      {/* All Ranks Modal - FIXED SECTION */}
       {showAllRanks && (
         <div style={{
           position: 'fixed',
@@ -1341,57 +1341,71 @@ export default function Dashboard(): React.ReactElement {
                   Status
                 </div>
 
-                {ranksData.map((rank) => (
-                  <React.Fragment key={rank.rank}>
-                    <div style={{
-                      padding: '1rem',
-                      backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: rank.color
-                    }}>
-                      {rank.rank}
-                    </div>
-                    <div style={{
-                      padding: '1rem',
-                      backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                      textAlign: 'center',
-                      color: '#E5E7EB'
-                    }}>
-                      {formatCurrency(rank.min_volume)}
-                    </div>
-                    <div style={{
-                      padding: '1rem',
-                      backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                      textAlign: 'center',
-                      color: '#22C55E'
-                    }}>
-                      {formatCurrency(rank.bonus)}
-                    </div>
-                    <div style={{
-                      padding: '1rem',
-                      backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                      textAlign: 'center',
-                      color: rank.infinity_bonus && rank.infinity_bonus > 0 ? '#00FF00' : '#9CA3AF'
-                    }}>
-                      {rank.infinity_bonus && rank.infinity_bonus > 0 ? `${rank.infinity_bonus}%` : '-'}
-                    </div>
-                    <div style={{
-                      padding: '1rem',
-                      backgroundColor: 'rgba(26, 26, 46, 0.7)',
-                      textAlign: 'center'
-                    }}>
-                      <span style={{
-                        color: userData.current_rank === rank.rank ? '#D4AF37' : 
-                               currentRankIndex < ranksData.findIndex(r => r.rank === rank.rank) ? '#22C55E' : '#EF4444',
-                        fontWeight: 'bold'
+                {ranksData.map((rank, index) => {
+                  // Calculate the correct status for each rank
+                  let status = 'PENDING';
+                  let statusColor = '#EF4444';
+                  
+                  if (userData.current_rank === rank.rank) {
+                    status = 'CURRENT';
+                    statusColor = '#D4AF37';
+                  } else if (index < currentRankIndex) {
+                    // Rank is below current rank (already achieved)
+                    status = 'ACHIEVED';
+                    statusColor = '#22C55E';
+                  }
+                  // else remains "PENDING" with red color
+                  
+                  return (
+                    <React.Fragment key={rank.rank}>
+                      <div style={{
+                        padding: '1rem',
+                        backgroundColor: 'rgba(26, 26, 46, 0.7)',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        color: rank.color
                       }}>
-                        {userData.current_rank === rank.rank ? 'CURRENT' : 
-                         currentRankIndex < ranksData.findIndex(r => r.rank === rank.rank) ? 'ACHIEVED' : 'PENDING'}
-                      </span>
-                    </div>
-                  </React.Fragment>
-                ))}
+                        {rank.rank}
+                      </div>
+                      <div style={{
+                        padding: '1rem',
+                        backgroundColor: 'rgba(26, 26, 46, 0.7)',
+                        textAlign: 'center',
+                        color: '#E5E7EB'
+                      }}>
+                        {formatCurrency(rank.min_volume)}
+                      </div>
+                      <div style={{
+                        padding: '1rem',
+                        backgroundColor: 'rgba(26, 26, 46, 0.7)',
+                        textAlign: 'center',
+                        color: '#22C55E'
+                      }}>
+                        {formatCurrency(rank.bonus)}
+                      </div>
+                      <div style={{
+                        padding: '1rem',
+                        backgroundColor: 'rgba(26, 26, 46, 0.7)',
+                        textAlign: 'center',
+                        color: rank.infinity_bonus && rank.infinity_bonus > 0 ? '#00FF00' : '#9CA3AF'
+                      }}>
+                        {rank.infinity_bonus && rank.infinity_bonus > 0 ? `${rank.infinity_bonus}%` : '-'}
+                      </div>
+                      <div style={{
+                        padding: '1rem',
+                        backgroundColor: 'rgba(26, 26, 46, 0.7)',
+                        textAlign: 'center'
+                      }}>
+                        <span style={{
+                          color: statusColor,
+                          fontWeight: 'bold'
+                        }}>
+                          {status}
+                        </span>
+                      </div>
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </div>
 
