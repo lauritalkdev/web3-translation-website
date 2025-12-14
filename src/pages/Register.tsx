@@ -16,6 +16,8 @@ export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [agreedToPrivacy, setAgreedToPrivacy] = useState(false);
 
   // Auto-copy referral code from URL
   useEffect(() => {
@@ -53,6 +55,12 @@ export default function Register() {
       return;
     }
 
+    if (!agreedToTerms || !agreedToPrivacy) {
+      alert('Please agree to the Terms and Conditions and Privacy Policy to continue.');
+      setLoading(false);
+      return;
+    }
+
     try {
       console.log('🚀 ===== REGISTRATION START =====');
       console.log('📋 Form data:', {
@@ -64,15 +72,13 @@ export default function Register() {
       });
 
       // STEP 1: Create auth user with Supabase
-      // Store the referral code in user_metadata
       const { data, error } = await supabase.auth.signUp({
         email: formData.email.trim(),
         password: formData.password,
         options: {
           data: {
             full_name: formData.fullName.trim(),
-            country: formData.country,
-            referral_code: formData.referralCode.trim() || null // Store here for reference
+            country: formData.country
           }
         }
       });
@@ -90,63 +96,52 @@ export default function Register() {
         return;
       }
 
-      console.log('✅ Auth user created:', data.user?.id);
-      console.log('🏷️  Metadata stored:', data.user?.user_metadata);
-
-      // STEP 2: Wait a moment for Supabase to create the profile automatically
-      // Then update the profile with the referral code to trigger our database function
-      if (data.user?.id) {
-        // Wait 500ms to ensure profile is created by Supabase
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
-        console.log('🔄 Updating profile with referral code...');
-        
-        // Update the profile to add the referral code
-        // This will trigger our handle_registration_referral() function
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({
-            referral_code: formData.referralCode.trim() || null,
-            full_name: formData.fullName.trim()
-          })
-          .eq('id', data.user.id)
-          .select();
-
-        if (updateError) {
-          console.error('❌ Profile update error:', updateError);
-          
-          // If update fails, try the RPC function approach
-          if (formData.referralCode.trim()) {
-            console.log('🔄 Trying RPC function approach...');
-            const { error: rpcError } = await supabase.rpc(
-              'process_user_referral',
-              {
-                p_user_id: data.user.id,
-                p_referral_code: formData.referralCode.trim()
-              }
-            );
-            
-            if (rpcError) {
-              console.error('❌ RPC referral processing error:', rpcError);
-            } else {
-              console.log('✅ Referral processed via RPC');
-            }
-          }
-        } else {
-          console.log('✅ Profile updated with referral code');
-        }
+      if (!data.user) {
+        alert('Registration failed. Please try again.');
+        setLoading(false);
+        return;
       }
 
-      console.log('🎯 Referral code used:', formData.referralCode);
-      console.log('🚀 ===== REGISTRATION COMPLETE =====');
+      console.log('✅ Auth user created:', data.user?.id);
+
+      // STEP 2: Process referral code if provided
+      if (formData.referralCode.trim()) {
+        console.log('🔗 Processing referral code:', formData.referralCode);
+        
+        // Wait a moment for profile to be created by trigger
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        try {
+          const { data: referralData, error: referralError } = await supabase
+            .rpc('process_referral_code', {
+              p_user_id: data.user.id,
+              p_referral_code: formData.referralCode.trim()
+            });
+
+          if (referralError) {
+            console.error('❌ Referral error:', referralError);
+            console.log('⚠️ Referral processing failed, but account created successfully');
+          } else {
+            console.log('✅ Referral processed:', referralData);
+          }
+        } catch (refErr) {
+          console.error('❌ Referral processing error:', refErr);
+          // Don't fail registration, just log the error
+        }
+      } else {
+        console.log('ℹ️ No referral code provided');
+      }
+
+      console.log('🎉 ===== REGISTRATION COMPLETE =====');
 
       // STEP 3: Show success and redirect
       alert('✅ Account created successfully! Please check your email for verification.');
       navigate('/login');
 
-    } catch (err: any) {
+    } catch (err) {
       console.error('💥 Unexpected error:', err);
-      alert('An unexpected error occurred. Please try again.');
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+      alert(`Error: ${errorMessage}. Please try again.`);
     } finally {
       setLoading(false);
     }
@@ -551,32 +546,115 @@ export default function Register() {
               )}
             </div>
 
+            {/* Terms and Conditions */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <input
+                  type="checkbox"
+                  id="terms"
+                  checked={agreedToTerms}
+                  onChange={(e) => setAgreedToTerms(e.target.checked)}
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                    marginTop: '0.125rem',
+                    accentColor: '#D4AF37'
+                  }}
+                  required
+                />
+                <label 
+                  htmlFor="terms" 
+                  style={{ 
+                    color: '#ffffff', 
+                    fontSize: '0.875rem',
+                    lineHeight: '1.5',
+                    cursor: 'pointer'
+                  }}
+                >
+                  I agree to the{' '}
+                  <a 
+                    href="/terms" 
+                    target="_blank"
+                    style={{ 
+                      color: '#D4AF37', 
+                      textDecoration: 'underline',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Terms and Conditions
+                  </a>
+                  {' *'}
+                </label>
+              </div>
+
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                <input
+                  type="checkbox"
+                  id="privacy"
+                  checked={agreedToPrivacy}
+                  onChange={(e) => setAgreedToPrivacy(e.target.checked)}
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer',
+                    marginTop: '0.125rem',
+                    accentColor: '#D4AF37'
+                  }}
+                  required
+                />
+                <label 
+                  htmlFor="privacy" 
+                  style={{ 
+                    color: '#ffffff', 
+                    fontSize: '0.875rem',
+                    lineHeight: '1.5',
+                    cursor: 'pointer'
+                  }}
+                >
+                  I acknowledge the{' '}
+                  <a 
+                    href="/privacy" 
+                    target="_blank"
+                    style={{ 
+                      color: '#D4AF37', 
+                      textDecoration: 'underline',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Privacy Policy
+                  </a>
+                  {' *'}
+                </label>
+              </div>
+            </div>
+
             {/* Submit Button */}
             <button 
               type="submit"
-              disabled={loading}
+              disabled={loading || !agreedToTerms || !agreedToPrivacy}
               style={{ 
                 width: '100%', 
-                background: loading ? 'linear-gradient(135deg, #666666 0%, #555555 100%)' : 'linear-gradient(135deg, #228B22 0%, #1B6B1B 100%)', 
+                background: (loading || !agreedToTerms || !agreedToPrivacy) ? 'linear-gradient(135deg, #666666 0%, #555555 100%)' : 'linear-gradient(135deg, #228B22 0%, #1B6B1B 100%)', 
                 color: '#ffffff', 
                 padding: '0.875rem', 
                 borderRadius: '0.375rem', 
                 border: 'none', 
                 fontWeight: 'bold',
-                cursor: loading ? 'not-allowed' : 'pointer',
+                cursor: (loading || !agreedToTerms || !agreedToPrivacy) ? 'not-allowed' : 'pointer',
                 fontSize: '1rem',
                 marginTop: '1rem',
                 transition: 'all 0.3s ease',
-                opacity: loading ? 0.7 : 1
+                opacity: (loading || !agreedToTerms || !agreedToPrivacy) ? 0.7 : 1
               }}
               onMouseOver={(e) => {
-                if (!loading) {
+                if (!loading && agreedToTerms && agreedToPrivacy) {
                   e.currentTarget.style.transform = 'translateY(-2px)';
                   e.currentTarget.style.boxShadow = '0 5px 15px rgba(34, 139, 34, 0.4)';
                 }
               }}
               onMouseOut={(e) => {
-                if (!loading) {
+                if (!loading && agreedToTerms && agreedToPrivacy) {
                   e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }
