@@ -6,6 +6,9 @@ import Register from './pages/Register';
 import Billing from './pages/Billing';
 import About from './pages/About';
 import Dashboard from './pages/Dashboard';
+import UserProfile from './pages/UserProfile';
+import UserPayouts from './pages/UserPayouts';
+import UserSupport from './pages/UserSupport';
 
 function App() {
   return (
@@ -19,6 +22,11 @@ function App() {
             <Route path="/billing" element={<Billing />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            
+            {/* User-specific pages */}
+            <Route path="/user/profile" element={<UserProfile />} />
+            <Route path="/user/payouts" element={<UserPayouts />} />
+            <Route path="/user/support" element={<UserSupport />} />
           </Routes>
         </div>
       </Router>

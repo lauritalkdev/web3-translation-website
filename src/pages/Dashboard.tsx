@@ -490,7 +490,7 @@ export default function Dashboard(): React.ReactElement {
 
                     <button
                       onClick={() => {
-                        navigate('/profile');
+                        navigate('/user/profile');
                         setShowProfileMenu(false);
                       }}
                       style={{
@@ -522,7 +522,7 @@ export default function Dashboard(): React.ReactElement {
 
                     <button
                       onClick={() => {
-                        navigate('/payouts');
+                        navigate('/user/payouts');
                         setShowProfileMenu(false);
                       }}
                       style={{
@@ -554,7 +554,7 @@ export default function Dashboard(): React.ReactElement {
 
                     <button
                       onClick={() => {
-                        navigate('/support');
+                        navigate('/user/support');
                         setShowProfileMenu(false);
                       }}
                       style={{
@@ -806,7 +806,7 @@ export default function Dashboard(): React.ReactElement {
               </p>
             </div>
             <button
-              onClick={() => navigate('/payouts')}
+              onClick={() => navigate('/user/payouts')}
               style={{
                 width: '100%',
                 background: 'rgba(34, 139, 34, 0.2)',
