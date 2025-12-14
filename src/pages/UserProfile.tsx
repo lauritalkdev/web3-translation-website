@@ -109,24 +109,36 @@ export default function UserProfile() {
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a1a2e 100%)',
       color: '#ffffff',
-      padding: '2rem 1rem',
+      padding: '1rem',
+      overflowX: 'hidden',
     }}>
       <div style={{
         maxWidth: '800px',
         margin: '0 auto',
         background: 'rgba(0, 0, 0, 0.7)',
         borderRadius: '1rem',
-        padding: '2rem',
+        padding: '1.5rem',
         border: '2px solid #D4AF37',
         boxShadow: '0 0 30px rgba(212, 175, 55, 0.3)',
+        overflow: 'hidden',
+        width: '100%',
+        boxSizing: 'border-box',
       }}>
         {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center', 
+          marginBottom: '2rem',
+          flexWrap: 'wrap',
+          gap: '1rem',
+        }}>
           <h1 style={{ 
-            fontSize: '2rem', 
+            fontSize: 'clamp(1.5rem, 4vw, 2rem)', 
             fontWeight: 'bold', 
             color: '#D4AF37',
-            textShadow: '0 0 10px #D4AF37'
+            textShadow: '0 0 10px #D4AF37',
+            wordBreak: 'break-word',
           }}>
             👤 User Profile
           </h1>
@@ -140,6 +152,8 @@ export default function UserProfile() {
               borderRadius: '0.5rem',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
             onMouseOver={(e) => {
               e.currentTarget.style.background = '#228B22';
@@ -158,12 +172,20 @@ export default function UserProfile() {
         <div style={{
           background: 'rgba(26, 26, 46, 0.8)',
           borderRadius: '1rem',
-          padding: '2rem',
+          padding: '1.5rem',
           marginBottom: '2rem',
           border: '1px solid #3B82F6',
+          overflow: 'hidden',
+          width: '100%',
         }}>
           {/* User Avatar */}
-          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', gap: '1.5rem' }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            marginBottom: '2rem', 
+            gap: '1.5rem',
+            flexWrap: 'wrap',
+          }}>
             <div style={{
               width: '80px',
               height: '80px',
@@ -176,22 +198,41 @@ export default function UserProfile() {
               fontWeight: 'bold',
               fontSize: '2rem',
               boxShadow: '0 0 20px rgba(212, 175, 55, 0.5)',
+              flexShrink: 0,
             }}>
               {getUserInitial()}
             </div>
-            <div>
-              <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#D4AF37' }}>
+            <div style={{
+              flex: 1,
+              minWidth: 0, // This prevents flex child from overflowing
+            }}>
+              <h2 style={{ 
+                fontSize: 'clamp(1.25rem, 3vw, 1.5rem)', 
+                marginBottom: '0.5rem', 
+                color: '#D4AF37',
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+              }}>
                 {getDisplayNameForHeader()}
               </h2>
-              <p style={{ color: '#9CA3AF' }}>{user?.email}</p>
+              <p style={{ 
+                color: '#9CA3AF',
+                wordBreak: 'break-word',
+                overflowWrap: 'break-word',
+                fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+              }}>
+                {user?.email}
+              </p>
               {formData.country && (
                 <p style={{ 
                   color: '#3B82F6', 
-                  fontSize: '0.9rem', 
+                  fontSize: 'clamp(0.8rem, 2vw, 0.9rem)', 
                   marginTop: '0.25rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem'
+                  gap: '0.5rem',
+                  wordBreak: 'break-word',
+                  flexWrap: 'wrap',
                 }}>
                   <span>🌍</span> {formData.country}
                 </p>
@@ -207,13 +248,16 @@ export default function UserProfile() {
                 background: 'linear-gradient(135deg, #D4AF37 0%, #228B22 100%)',
                 color: '#000',
                 border: 'none',
-                padding: '0.75rem 2rem',
+                padding: '0.75rem 1.5rem',
                 borderRadius: '0.5rem',
                 cursor: 'pointer',
                 fontWeight: 'bold',
                 marginBottom: '2rem',
                 transition: 'all 0.3s ease',
                 boxShadow: '0 0 15px rgba(212, 175, 55, 0.5)',
+                width: '100%',
+                maxWidth: '200px',
+                fontSize: 'clamp(0.9rem, 2vw, 1rem)',
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.transform = 'translateY(-2px)';
@@ -231,7 +275,12 @@ export default function UserProfile() {
           {/* Profile Form */}
           {isEditing ? (
             <div>
-              <h3 style={{ fontSize: '1.25rem', marginBottom: '1.5rem', color: '#3B82F6' }}>
+              <h3 style={{ 
+                fontSize: 'clamp(1.1rem, 3vw, 1.25rem)', 
+                marginBottom: '1.5rem', 
+                color: '#3B82F6',
+                wordBreak: 'break-word',
+              }}>
                 Edit Profile Information
               </h3>
               
@@ -253,6 +302,7 @@ export default function UserProfile() {
                       borderRadius: '0.5rem',
                       color: '#ffffff',
                       fontSize: '1rem',
+                      boxSizing: 'border-box',
                     }}
                   />
                 </div>
@@ -276,9 +326,14 @@ export default function UserProfile() {
                       color: '#9CA3AF',
                       fontSize: '1rem',
                       cursor: 'not-allowed',
+                      boxSizing: 'border-box',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
                     }}
+                    title={formData.email}
                   />
-                  <p style={{ fontSize: '0.8rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
+                  <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.8rem)', color: '#9CA3AF', marginTop: '0.25rem' }}>
                     Email cannot be changed for security reasons
                   </p>
                 </div>
@@ -301,9 +356,10 @@ export default function UserProfile() {
                       borderRadius: '0.5rem',
                       color: '#ffffff',
                       fontSize: '1rem',
+                      boxSizing: 'border-box',
                     }}
                   />
-                  <p style={{ fontSize: '0.8rem', color: '#9CA3AF', marginTop: '0.25rem' }}>
+                  <p style={{ fontSize: 'clamp(0.75rem, 2vw, 0.8rem)', color: '#9CA3AF', marginTop: '0.25rem' }}>
                     Include country code (e.g., +1 for US, +44 for UK)
                   </p>
                 </div>
@@ -325,6 +381,7 @@ export default function UserProfile() {
                       borderRadius: '0.5rem',
                       color: '#ffffff',
                       fontSize: '1rem',
+                      boxSizing: 'border-box',
                     }}
                   />
                 </div>
@@ -345,6 +402,7 @@ export default function UserProfile() {
                       borderRadius: '0.5rem',
                       color: '#ffffff',
                       fontSize: '1rem',
+                      boxSizing: 'border-box',
                     }}
                   >
                     <option value="">Select your country</option>
@@ -370,6 +428,7 @@ export default function UserProfile() {
                       borderRadius: '0.5rem',
                       color: '#ffffff',
                       fontSize: '1rem',
+                      boxSizing: 'border-box',
                     }}
                   >
                     <option value="en">English</option>
@@ -394,28 +453,31 @@ export default function UserProfile() {
                     style={{
                       width: '18px',
                       height: '18px',
+                      flexShrink: 0,
                     }}
                   />
-                  <label style={{ color: '#E5E7EB' }}>
+                  <label style={{ color: '#E5E7EB', fontSize: 'clamp(0.9rem, 2vw, 1rem)' }}>
                     Receive email notifications
                   </label>
                 </div>
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '1rem' }}>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button
                   onClick={handleSave}
                   style={{
                     background: '#228B22',
                     color: '#ffffff',
                     border: 'none',
-                    padding: '0.75rem 2rem',
+                    padding: '0.75rem 1.5rem',
                     borderRadius: '0.5rem',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    flex: 1,
+                    flex: '1 1 200px',
                     transition: 'all 0.3s ease',
+                    minWidth: '140px',
+                    fontSize: 'clamp(0.9rem, 2vw, 1rem)',
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.background = '#1E7A1E';
@@ -434,12 +496,14 @@ export default function UserProfile() {
                     background: 'transparent',
                     color: '#EF4444',
                     border: '1px solid #EF4444',
-                    padding: '0.75rem 2rem',
+                    padding: '0.75rem 1.5rem',
                     borderRadius: '0.5rem',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    flex: 1,
+                    flex: '1 1 200px',
                     transition: 'all 0.3s ease',
+                    minWidth: '140px',
+                    fontSize: 'clamp(0.9rem, 2vw, 1rem)',
                   }}
                   onMouseOver={(e) => {
                     e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)';
@@ -457,24 +521,46 @@ export default function UserProfile() {
             <div>
               <div style={{ display: 'grid', gap: '1rem' }}>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Display Name</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Display Name</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                  }}>
                     {formData.displayName || 'Not set'}
                   </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Email</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>{formData.email}</p>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Email</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}>
+                    {formData.email}
+                  </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Phone Number</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Phone Number</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                  }}>
                     {formData.phoneNumber || 'Not set'}
                   </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Date of Birth</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Date of Birth</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                  }}>
                     {formData.dateOfBirth ? new Date(formData.dateOfBirth).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -483,14 +569,22 @@ export default function UserProfile() {
                   </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Country</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Country</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                  }}>
                     {formData.country || 'Not set'}
                   </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Preferred Language</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Preferred Language</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                  }}>
                     {formData.language === 'en' ? 'English' :
                      formData.language === 'es' ? 'Spanish' :
                      formData.language === 'fr' ? 'French' :
@@ -504,8 +598,12 @@ export default function UserProfile() {
                   </p>
                 </div>
                 <div>
-                  <label style={{ color: '#9CA3AF', fontSize: '0.9rem' }}>Notifications</label>
-                  <p style={{ color: '#E5E7EB', fontSize: '1.1rem' }}>
+                  <label style={{ color: '#9CA3AF', fontSize: 'clamp(0.8rem, 2vw, 0.9rem)' }}>Notifications</label>
+                  <p style={{ 
+                    color: '#E5E7EB', 
+                    fontSize: 'clamp(1rem, 2vw, 1.1rem)',
+                    wordBreak: 'break-word',
+                  }}>
                     {formData.notifications ? 'Enabled' : 'Disabled'}
                   </p>
                 </div>
