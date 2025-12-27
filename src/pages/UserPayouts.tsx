@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
 
 interface Payout {
   id: string;
@@ -18,51 +19,111 @@ export default function UserPayouts() {
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [selectedMethod, setSelectedMethod] = useState<CryptoMethod>('USDT BEP-20');
   const [walletAddress, setWalletAddress] = useState('');
+  
+  // Real data states
+  const [payouts, setPayouts] = useState<Payout[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalEarnings: 0,
+    availableBalance: 0,
+    totalPayouts: 0
+  });
 
-  // Mock data - replace with actual data from your backend
-  const [payouts, setPayouts] = useState<Payout[]>([
-    {
-      id: '1',
-      date: '2024-01-15',
-      amount: 150.50,
-      status: 'completed',
-      method: 'USDT BEP-20',
-      transactionHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-      walletAddress: '0x742d35Cc6634C0532925a3b844Bc9e0F3B1F1d1E',
-    },
-    {
-      id: '2',
-      date: '2024-01-10',
-      amount: 200.00,
-      status: 'completed',
-      method: 'USDT TRC-20',
-      transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-      walletAddress: 'TAbCdEfGhIjKlMnOpQrStUvWxYz0123456789',
-    },
-    {
-      id: '3',
-      date: '2024-01-05',
-      amount: 75.25,
-      status: 'pending',
-      method: 'USDT BEP-20',
-      walletAddress: '0x9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b',
-    },
-    {
-      id: '4',
-      date: '2023-12-28',
-      amount: 125.00,
-      status: 'failed',
-      method: 'USDT TRC-20',
-      walletAddress: 'TC1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0',
-    },
-  ]);
-
-  const totalEarnings = 850.75;
-  const availableBalance = 350.25;
-  const totalPayouts = 500.50;
   const MIN_WITHDRAWAL = 50;
 
-  const handleWithdraw = () => {
+  // Memoized fetch function
+  const fetchPayouts = useCallback(async () => {
+    try {
+      setLoading(true);
+      
+      // Get current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+      
+      // Fetch payouts for this user
+      const { data, error } = await supabase
+        .from('payouts')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      
+      if (error) throw error;
+      
+      // Transform Supabase data to match your interface
+      const formattedPayouts: Payout[] = data.map(payout => ({
+        id: payout.id,
+        date: new Date(payout.created_at).toISOString().split('T')[0],
+        amount: parseFloat(payout.amount),
+        status: payout.status as 'completed' | 'pending' | 'failed',
+        method: payout.method as 'USDT BEP-20' | 'USDT TRC-20',
+        transactionHash: payout.transaction_hash || undefined,
+        walletAddress: payout.wallet_address
+      }));
+      
+      setPayouts(formattedPayouts);
+      
+      // Calculate stats from payouts
+      const completedPayouts = formattedPayouts.filter(p => p.status === 'completed');
+      const totalPayouts = completedPayouts.reduce((sum, p) => sum + p.amount, 0);
+      
+      // Fetch user wallet balance
+      const { data: wallet, error: walletError } = await supabase
+        .from('user_wallets')
+        .select('balance_usd')
+        .eq('user_id', user.id)
+        .single();
+      
+      if (walletError && walletError.code !== 'PGRST116') throw walletError;
+      
+      const availableBalance = wallet ? parseFloat(wallet.balance_usd) : 0;
+      const totalEarnings = availableBalance + totalPayouts;
+      
+      setStats({
+        totalEarnings,
+        availableBalance,
+        totalPayouts
+      });
+      
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      alert('Failed to load payout data');
+    } finally {
+      setLoading(false);
+    }
+  }, [navigate]); // Only depends on navigate
+
+  // Initial data fetch and real-time subscription
+  useEffect(() => {
+    fetchPayouts();
+    
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('payouts-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'payouts'
+        },
+        () => {
+          fetchPayouts(); // Refresh data when payouts change
+        }
+      )
+      .subscribe();
+    
+    // Cleanup subscription
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchPayouts]); // Now fetchPayouts is properly included
+
+  // Updated handleWithdraw function with real API call
+  const handleWithdraw = async () => {
     const amount = parseFloat(withdrawAmount);
     
     if (amount < MIN_WITHDRAWAL) {
@@ -70,7 +131,7 @@ export default function UserPayouts() {
       return;
     }
     
-    if (amount > availableBalance) {
+    if (amount > stats.availableBalance) {
       alert('Insufficient balance');
       return;
     }
@@ -91,28 +152,71 @@ export default function UserPayouts() {
       return;
     }
 
-    // Here you would typically call your backend API
-    console.log('Withdrawing:', { 
-      amount, 
-      method: selectedMethod, 
-      walletAddress 
-    });
-    
-    // Add new payout to list
-    const newPayout: Payout = {
-      id: Date.now().toString(),
-      date: new Date().toISOString().split('T')[0],
-      amount,
-      status: 'pending',
-      method: selectedMethod,
-      walletAddress,
-    };
-    
-    setPayouts([newPayout, ...payouts]);
-    setWithdrawAmount('');
-    setWalletAddress('');
-    
-    alert(`Withdrawal request for $${amount.toFixed(2)} submitted successfully! It will be processed within 3 business days.`);
+    try {
+      // Get current user
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      if (userError) throw userError;
+      if (!user) {
+        alert('Please login to withdraw');
+        navigate('/login');
+        return;
+      }
+
+      // 1. Create payout record
+      const { data: payout, error: payoutError } = await supabase
+        .from('payouts')
+        .insert({
+          user_id: user.id,
+          amount: amount,
+          method: selectedMethod,
+          wallet_address: walletAddress,
+          status: 'pending'
+        })
+        .select()
+        .single();
+      
+      if (payoutError) throw payoutError;
+      
+      // 2. Update user wallet balance
+      const { error: walletError } = await supabase
+        .from('user_wallets')
+        .upsert({
+          user_id: user.id,
+          balance_usd: stats.availableBalance - amount,
+          updated_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id'
+        });
+      
+      if (walletError) throw walletError;
+      
+      // 3. Update local state
+      const newPayout: Payout = {
+        id: payout.id,
+        date: new Date().toISOString().split('T')[0],
+        amount,
+        status: 'pending',
+        method: selectedMethod,
+        walletAddress,
+      };
+      
+      setPayouts([newPayout, ...payouts]);
+      setWithdrawAmount('');
+      setWalletAddress('');
+      
+      // 4. Update local stats
+      setStats(prev => ({
+        ...prev,
+        availableBalance: prev.availableBalance - amount,
+        totalPayouts: prev.totalPayouts + amount
+      }));
+      
+      alert(`Withdrawal request for $${amount.toFixed(2)} submitted successfully! It will be processed within 3 business days.`);
+      
+    } catch (error) {
+      console.error('Withdrawal error:', error);
+      alert('Failed to submit withdrawal request. Please try again.');
+    }
   };
 
   const getStatusColor = (status: string) => {
@@ -147,6 +251,27 @@ export default function UserPayouts() {
     if (hash.length <= 16) return hash;
     return `${hash.substring(0, 10)}...${hash.substring(hash.length - 8)}`;
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #000000 0%, #0f0f23 50%, #1a1a2e 100%)',
+        color: '#ffffff',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⏳</div>
+          <div>Loading payout data...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const { totalEarnings, availableBalance, totalPayouts } = stats;
 
   return (
     <div style={{
@@ -414,7 +539,7 @@ export default function UserPayouts() {
             
             {payouts.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '3rem', color: '#9CA3AF' }}>
-                No payout history yet. Start translating to earn money!
+                No payout history yet. Start earning to make withdrawals!
               </div>
             ) : (
               <div style={{ overflowX: 'auto' }}>
