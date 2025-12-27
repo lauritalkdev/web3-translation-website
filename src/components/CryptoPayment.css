@@ -4,6 +4,9 @@
   border-radius: 8px;
   border: 1px solid #444;
   margin: 0;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .crypto-payment h3 {
@@ -14,8 +17,13 @@
 
 .plan-selection {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .plan-selection label {
@@ -24,10 +32,15 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
 }
 
 .currency-selection {
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .currency-selection label {
@@ -45,6 +58,8 @@
   background: #333;
   color: white;
   font-size: 14px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .pay-button {
@@ -58,6 +73,7 @@
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.2s;
+  box-sizing: border-box;
 }
 
 .pay-button:hover:not(:disabled) {
@@ -68,4 +84,18 @@
   background: #666;
   cursor: not-allowed;
   color: #999;
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+  .plan-selection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .plan-selection label {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
