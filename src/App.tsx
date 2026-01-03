@@ -9,6 +9,8 @@ import Dashboard from './pages/Dashboard';
 import UserProfile from './pages/UserProfile';
 import UserPayouts from './pages/UserPayouts';
 import UserSupport from './pages/UserSupport';
+import Terms from './pages/Terms';
+import Privacy from './pages/Privacy';
 
 function App() {
   return (
@@ -22,6 +24,10 @@ function App() {
             <Route path="/billing" element={<Billing />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            
+            {/* Legal pages */}
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
             
             {/* User-specific pages */}
             <Route path="/user/profile" element={<UserProfile />} />
