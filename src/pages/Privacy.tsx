@@ -31,7 +31,7 @@ export default function Privacy() {
             marginBottom: '2rem',
             fontStyle: 'italic'
           }}>
-            Effective Date: [Insert Date]
+            Effective Date: [December, 2025]
           </p>
   
           <p style={{ marginBottom: '1.5rem' }}>
