@@ -24,6 +24,9 @@ interface UserData {
   infinity_bonus_eligible: boolean;
   infinity_bonus_percentage: number;
   next_rank_bonus: number;
+  subscription_status: string;
+  subscription_expires_at: string | null;
+  referral_emails_list: string;
 }
 
 interface RankData {
@@ -54,23 +57,149 @@ type CompensationSummaryResponse = {
   infinity_bonus_eligible: boolean | null;
   infinity_bonus_percentage: number | null;
   next_rank_bonus: number | null;
+  subscription_status: string | null;
+  subscription_expires_at: string | null;
+  referral_emails_list: string | null;
 };
 
+// Countdown Timer Component
+function CountdownTimer({ expiresAt }: { expiresAt: string | null }) {
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number } | null>(null);
+  const [isExpired, setIsExpired] = useState(false);
+
+  useEffect(() => {
+    if (!expiresAt) return;
+
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime();
+      const expiry = new Date(expiresAt).getTime();
+      const difference = expiry - now;
+
+      if (difference <= 0) {
+        setIsExpired(true);
+        setTimeLeft(null);
+        return null;
+      }
+
+      setIsExpired(false);
+      const newTimeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000)
+      };
+      setTimeLeft(newTimeLeft);
+      return newTimeLeft;
+    };
+
+    // Initial calculation
+    calculateTimeLeft();
+    
+    // Set up interval
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, [expiresAt]);
+
+  if (!expiresAt || (!timeLeft && !isExpired)) {
+    return null;
+  }
+
+  if (isExpired) {
+    return (
+      <div style={{
+        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+        border: '1px solid #EF4444',
+        borderRadius: '0.75rem',
+        padding: 'clamp(1rem, 3vw, 1.5rem)',
+        marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
+        textAlign: 'center'
+      }}>
+        <p style={{ color: '#EF4444', fontSize: 'clamp(1rem, 3vw, 1.2rem)', fontWeight: 'bold', margin: 0 }}>
+          ⚠️ Your subscription has expired!
+        </p>
+        <p style={{ color: '#FCA5A5', fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', margin: '0.5rem 0 0 0' }}>
+          Renew now to continue earning referral bonuses.
+        </p>
+      </div>
+    );
+  }
+
+  if (!timeLeft) return null;
+
+  const isUrgent = timeLeft.days <= 7;
+
+  return (
+    <div style={{
+      backgroundColor: isUrgent ? 'rgba(239, 68, 68, 0.1)' : 'rgba(59, 130, 246, 0.1)',
+      border: `1px solid ${isUrgent ? 'rgba(239, 68, 68, 0.3)' : 'rgba(59, 130, 246, 0.3)'}`,
+      borderRadius: '0.75rem',
+      padding: 'clamp(1rem, 3vw, 1.5rem)',
+      marginBottom: 'clamp(1rem, 3vw, 1.5rem)'
+    }}>
+      <p style={{ 
+        color: isUrgent ? '#FCA5A5' : '#93C5FD', 
+        fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', 
+        marginBottom: '0.75rem',
+        textAlign: 'center'
+      }}>
+        {isUrgent ? '⚠️ Subscription expiring soon!' : '⏰ Subscription expires in:'}
+      </p>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        gap: 'clamp(0.5rem, 2vw, 1rem)',
+        flexWrap: 'wrap'
+      }}>
+        {[
+          { value: timeLeft.days, label: 'Days' },
+          { value: timeLeft.hours, label: 'Hours' },
+          { value: timeLeft.minutes, label: 'Mins' },
+          { value: timeLeft.seconds, label: 'Secs' }
+        ].map((item) => (
+          <div key={item.label} style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            borderRadius: '0.5rem',
+            padding: 'clamp(0.5rem, 2vw, 0.75rem) clamp(0.75rem, 2.5vw, 1rem)',
+            textAlign: 'center',
+            minWidth: 'clamp(50px, 12vw, 70px)'
+          }}>
+            <p style={{ 
+              fontSize: 'clamp(1.25rem, 4vw, 1.75rem)', 
+              fontWeight: 'bold', 
+              color: isUrgent ? '#EF4444' : '#3B82F6',
+              margin: 0
+            }}>
+              {item.value.toString().padStart(2, '0')}
+            </p>
+            <p style={{ 
+              fontSize: 'clamp(0.6rem, 2vw, 0.75rem)', 
+              color: '#9CA3AF',
+              margin: 0
+            }}>
+              {item.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 export default function Dashboard(): React.ReactElement {
   const navigate = useNavigate();
-  const { user, signOut } = useAuth(); // Added signOut from useAuth
+  const { user, signOut } = useAuth();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [showAllRanks, setShowAllRanks] = useState<boolean>(false);
-  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false); // Added profile menu state
+  const [showProfileMenu, setShowProfileMenu] = useState<boolean>(false);
+  const [showReferralEmails, setShowReferralEmails] = useState<boolean>(false);
 
   const generateReferralCode = useCallback((): string => {
     return 'REF' + Math.random().toString(36).substring(2, 11).toUpperCase();
   }, []);
 
   const setFallbackData = useCallback((): void => {
-    // Fallback ranks data
     const fallbackRanksData: RankData[] = [
       { rank: 'Beginner', min_volume: 0, bonus: 0, color: '#6B7280', infinity_bonus: 0 },
       { rank: 'Recruiter', min_volume: 2000, bonus: 50, color: '#CD7F32', infinity_bonus: 0 },
@@ -109,7 +238,10 @@ export default function Dashboard(): React.ReactElement {
       distance_to_deputy_ambassador: Math.max(0, 6 - currentRankIndex),
       infinity_bonus_eligible: currentRankIndex >= 6,
       infinity_bonus_percentage: currentRank.infinity_bonus || 0,
-      next_rank_bonus: nextRank.bonus
+      next_rank_bonus: nextRank.bonus,
+      subscription_status: 'freemium',
+      subscription_expires_at: null,
+      referral_emails_list: ''
     });
   }, [user, generateReferralCode]);
 
@@ -122,7 +254,6 @@ export default function Dashboard(): React.ReactElement {
         throw new Error('User ID not available');
       }
 
-      // Try to fetch real data from backend
       const { data, error: apiError } = await supabase
         .rpc('get_user_compensation_summary', {
           user_id_param: user.id
@@ -136,7 +267,6 @@ export default function Dashboard(): React.ReactElement {
       if (data && data.length > 0) {
         const userData = data[0] as CompensationSummaryResponse;
         
-        // Process and validate the data
         const processedData: UserData = {
           full_name: userData.full_name || user.email?.split('@')[0] || 'User',
           email: userData.email || user.email || '',
@@ -155,13 +285,15 @@ export default function Dashboard(): React.ReactElement {
           distance_to_deputy_ambassador: userData.distance_to_deputy_ambassador ?? 6,
           infinity_bonus_eligible: userData.infinity_bonus_eligible ?? false,
           infinity_bonus_percentage: userData.infinity_bonus_percentage ?? 0,
-          next_rank_bonus: userData.next_rank_bonus ?? 0
+          next_rank_bonus: userData.next_rank_bonus ?? 0,
+          subscription_status: userData.subscription_status || 'freemium',
+          subscription_expires_at: userData.subscription_expires_at || null,
+          referral_emails_list: userData.referral_emails_list || ''
         };
         
         setUserData(processedData);
       } else {
         console.log('No data returned from function');
-        // Use fallback data if no real data is available
         setFallbackData();
       }
     } catch (err: unknown) {
@@ -203,16 +335,20 @@ export default function Dashboard(): React.ReactElement {
     }).format(amount);
   };
 
-  // Added profile menu toggle function
   const toggleProfileMenu = (): void => {
     setShowProfileMenu(!showProfileMenu);
   };
 
-  // Added logout handler
   const handleLogout = (): void => {
     signOut();
     navigate('/');
     setShowProfileMenu(false);
+  };
+
+  // Parse referral emails into array
+  const getReferralEmailsArray = (): string[] => {
+    if (!userData?.referral_emails_list) return [];
+    return userData.referral_emails_list.split(', ').filter(email => email.trim() !== '');
   };
 
   const ranksData: RankData[] = [
@@ -286,10 +422,10 @@ export default function Dashboard(): React.ReactElement {
     );
   }
 
-  // Calculate the current rank index
   const currentRankIndex = ranksData.findIndex(rank => rank.rank === userData.current_rank);
   const currentRank = ranksData[currentRankIndex] || ranksData[0];
   const isDeputyAmbassadorOrHigher = currentRankIndex >= 6;
+  const isPremium = userData.subscription_status === 'premium';
 
   return (
     <div style={{ 
@@ -336,7 +472,7 @@ export default function Dashboard(): React.ReactElement {
             </h1>
           </div>
           
-          {/* User Profile Menu Button - Replaced "Back to Home" button */}
+          {/* User Profile Menu Button */}
           <div style={{ 
             display: 'flex', 
             alignItems: 'center', 
@@ -344,7 +480,6 @@ export default function Dashboard(): React.ReactElement {
             position: 'relative',
             flexShrink: 0
           }}>
-            {/* User Profile Button */}
             <button
               onClick={toggleProfileMenu}
               style={{
@@ -584,7 +719,6 @@ export default function Dashboard(): React.ReactElement {
                       <span>💬</span> Support
                     </button>
 
-                    {/* Upgrade to Pro Button - Added new button */}
                     <button
                       onClick={() => {
                         navigate('/billing');
@@ -684,7 +818,7 @@ export default function Dashboard(): React.ReactElement {
           </div>
         )}
 
-        {/* Welcome Section */}
+        {/* Welcome Section - UPDATED STATUS LABEL */}
         <div style={{
           backgroundColor: 'rgba(26, 26, 46, 0.7)',
           borderRadius: '1rem',
@@ -727,18 +861,59 @@ export default function Dashboard(): React.ReactElement {
               Status:
             </span>
             <span style={{ 
-              color: '#22C55E', 
+              color: isPremium ? '#D4AF37' : '#9CA3AF', 
               fontSize: 'clamp(0.75rem, 2.5vw, 0.9rem)',
-              backgroundColor: 'rgba(34, 197, 94, 0.1)',
+              backgroundColor: isPremium ? 'rgba(212, 175, 55, 0.2)' : 'rgba(156, 163, 175, 0.2)',
               padding: '0.25rem 0.75rem',
               borderRadius: '9999px',
               fontWeight: '500',
-              whiteSpace: 'nowrap'
+              whiteSpace: 'nowrap',
+              border: isPremium ? '1px solid #D4AF37' : '1px solid #6B7280'
             }}>
-              {error ? 'Using Fallback Data' : 'Connected to Real Data'}
+              {isPremium ? '⭐ Premium Member' : '🆓 Freemium Member'}
             </span>
           </div>
         </div>
+
+        {/* Countdown Timer for Premium Users */}
+        {isPremium && userData.subscription_expires_at && (
+          <CountdownTimer expiresAt={userData.subscription_expires_at} />
+        )}
+
+        {/* Upgrade Prompt for Freemium Users */}
+        {!isPremium && (
+          <div style={{
+            backgroundColor: 'rgba(212, 175, 55, 0.1)',
+            border: '1px solid rgba(212, 175, 55, 0.3)',
+            borderRadius: '0.75rem',
+            padding: 'clamp(1rem, 3vw, 1.5rem)',
+            marginBottom: 'clamp(1rem, 3vw, 1.5rem)',
+            textAlign: 'center'
+          }}>
+            <p style={{ color: '#D4AF37', fontSize: 'clamp(1rem, 3vw, 1.2rem)', fontWeight: 'bold', margin: 0 }}>
+              🚀 Upgrade to Premium to start earning referral bonuses!
+            </p>
+            <p style={{ color: '#E5E7EB', fontSize: 'clamp(0.8rem, 2.5vw, 0.9rem)', margin: '0.5rem 0' }}>
+              Premium members earn 10% commission on every referral subscription.
+            </p>
+            <button
+              onClick={() => navigate('/billing')}
+              style={{
+                marginTop: '0.5rem',
+                background: 'linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)',
+                border: 'none',
+                color: '#000',
+                padding: '0.75rem 2rem',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontWeight: 'bold',
+                fontSize: 'clamp(0.9rem, 2.5vw, 1rem)'
+              }}
+            >
+              Upgrade Now
+            </button>
+          </div>
+        )}
 
         {/* Stats Grid */}
         <div style={{
@@ -1053,14 +1228,14 @@ export default function Dashboard(): React.ReactElement {
           </div>
         </div>
 
-        {/* Referral Stats Section */}
+        {/* Referral Stats Section - UPDATED WITH EMAIL VIEW */}
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))',
           gap: 'clamp(1rem, 3vw, 1.5rem)',
           marginBottom: 'clamp(1.5rem, 4vw, 2rem)'
         }}>
-          {/* Total Referrals */}
+          {/* Total Referrals - WITH VIEW EMAILS BUTTON */}
           <div style={{
             backgroundColor: 'rgba(26, 26, 46, 0.7)',
             borderRadius: '1rem',
@@ -1089,6 +1264,24 @@ export default function Dashboard(): React.ReactElement {
             }}>
               {userData.total_referrals}
             </p>
+            {userData.total_referrals > 0 && (
+              <button
+                onClick={() => setShowReferralEmails(true)}
+                style={{
+                  marginTop: '0.5rem',
+                  background: 'rgba(34, 139, 34, 0.2)',
+                  border: '1px solid #228B22',
+                  color: '#228B22',
+                  padding: '0.4rem 0.75rem',
+                  borderRadius: '0.375rem',
+                  cursor: 'pointer',
+                  fontSize: 'clamp(0.7rem, 2vw, 0.8rem)',
+                  fontWeight: '500'
+                }}
+              >
+                View Emails
+              </button>
+            )}
           </div>
 
           {/* Premium Referrals */}
@@ -1531,7 +1724,111 @@ export default function Dashboard(): React.ReactElement {
         </div>
       </div>
 
-      {/* All Ranks Modal - MOBILE RESPONSIVE */}
+      {/* Referral Emails Modal */}
+      {showReferralEmails && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 1000,
+          padding: 'clamp(0.5rem, 2vw, 1rem)',
+          backdropFilter: 'blur(5px)'
+        }}>
+          <div style={{
+            backgroundColor: '#0f0f23',
+            borderRadius: '1rem',
+            padding: 'clamp(1.5rem, 4vw, 2rem)',
+            width: '100%',
+            maxWidth: '500px',
+            maxHeight: '80vh',
+            overflowY: 'auto',
+            border: '2px solid #228B22',
+            boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5)'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              marginBottom: '1.5rem'
+            }}>
+              <h2 style={{ 
+                fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', 
+                fontWeight: 'bold', 
+                color: '#228B22',
+                margin: 0
+              }}>
+                👥 Your Referrals ({userData.total_referrals})
+              </h2>
+              <button
+                onClick={() => setShowReferralEmails(false)}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #EF4444',
+                  color: '#EF4444',
+                  padding: '0.4rem 0.75rem',
+                  borderRadius: '0.5rem',
+                  cursor: 'pointer',
+                  fontWeight: '500',
+                  fontSize: '1rem'
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {getReferralEmailsArray().length > 0 ? (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {getReferralEmailsArray().map((email, index) => (
+                  <div key={index} style={{
+                    backgroundColor: 'rgba(34, 139, 34, 0.1)',
+                    border: '1px solid rgba(34, 139, 34, 0.3)',
+                    borderRadius: '0.5rem',
+                    padding: '0.75rem 1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.75rem'
+                  }}>
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '50%',
+                      backgroundColor: 'rgba(34, 139, 34, 0.2)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#228B22',
+                      fontWeight: 'bold',
+                      fontSize: '0.9rem',
+                      flexShrink: 0
+                    }}>
+                      {index + 1}
+                    </div>
+                    <span style={{ 
+                      color: '#E5E7EB', 
+                      fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+                      wordBreak: 'break-word'
+                    }}>
+                      {email}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p style={{ color: '#9CA3AF', textAlign: 'center' }}>
+                No referrals yet. Share your referral link to get started!
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* All Ranks Modal */}
       {showAllRanks && (
         <div style={{
           position: 'fixed',
@@ -1662,7 +1959,6 @@ export default function Dashboard(): React.ReactElement {
                 </div>
 
                 {ranksData.map((rank, index) => {
-                  // Calculate the correct status for each rank
                   let status = 'PENDING';
                   let statusColor = '#EF4444';
                   
@@ -1670,11 +1966,9 @@ export default function Dashboard(): React.ReactElement {
                     status = 'CURRENT';
                     statusColor = '#D4AF37';
                   } else if (index < currentRankIndex) {
-                    // Rank is below current rank (already achieved)
                     status = 'ACHIEVED';
                     statusColor = '#22C55E';
                   }
-                  // else remains "PENDING" with red color
                   
                   return (
                     <React.Fragment key={rank.rank}>
