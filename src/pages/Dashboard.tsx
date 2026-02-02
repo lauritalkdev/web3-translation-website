@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../lib/AuthContext';
 import { supabase } from '../lib/supabase';
+import DownloadAppButton from '../components/DownloadAppButton';
 
 // Define proper interfaces
 interface UserData {
@@ -1721,6 +1722,14 @@ export default function Dashboard(): React.ReactElement {
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Download App Section */}
+        <div style={{
+          marginTop: 'clamp(1.5rem, 4vw, 2rem)',
+          marginBottom: 'clamp(1.5rem, 4vw, 2rem)'
+        }}>
+          <DownloadAppButton />
         </div>
       </div>
 
