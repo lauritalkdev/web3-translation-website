@@ -845,7 +845,7 @@ export default function Dashboard(): React.ReactElement {
             fontSize: 'clamp(0.9rem, 3vw, 1.1rem)',
             lineHeight: '1.4'
           }}>
-            Track your progress, earnings, and climb the ranks to unlock Infinity Bonuses! SCROLL DOWN AND DOWNLOAD THE APP IF YOU DON'T HAVE
+            Track your progress, earnings, and climb the ranks to unlock Infinity Bonuses! SCROLL DOWN AND DOWNLOAD THE APP IF YOU DON'T HAVE.
           </p>
           <div style={{ 
             display: 'flex', 
